@@ -616,26 +616,32 @@
         <div class="testimonial-form">
           <h3>Add Your Reflection</h3>
           
-          <div class="form-success" id="testimonialSuccess">Thank you. Your reflection has been received.</div>
+          <div id="testimonialSuccess" data-fs-success style="display: none; background: #f0f8f0; border: 1px solid #d4edda; color: #155724; padding: 16px; margin-bottom: 24px; border-radius: 4px; text-align: center; font-size: 15px;">
+            ✓ Thank you. Your reflection has been received.
+          </div>
+          <div data-fs-error style="display: none; color: #721c24; background: #fef3f3; border: 1px solid #f5d5d5; padding: 12px; margin-bottom: 20px; border-radius: 4px;"></div>
 
-          <form id="testimonialForm" action="https://formspree.io/f/YOUR_TESTIMONIAL_FORM_ID" method="POST">
+          <form id="testimonialForm" data-fs-form>
             <div class="form-grid">
               <div class="form-group">
                 <label>Your name</label>
-                <input type="text" name="name" placeholder="Your name" required>
+                <input type="text" name="name" placeholder="Your name" data-fs-field required>
+                <span data-fs-error="name" style="color: #c41e3a; font-size: 13px; display: none;"></span>
               </div>
               <div class="form-group">
                 <label>City / Location (optional)</label>
-                <input type="text" name="location" placeholder="London, Madrid, etc.">
+                <input type="text" name="location" placeholder="London, Madrid, etc." data-fs-field>
+                <span data-fs-error="location" style="color: #c41e3a; font-size: 13px; display: none;"></span>
               </div>
             </div>
 
             <div class="form-group">
               <label>What was your experience?</label>
-              <textarea name="message" placeholder="What stood out? What did you learn? How did it change how you see?" required></textarea>
+              <textarea name="message" placeholder="What stood out? What did you learn? How did it change how you see?" data-fs-field required></textarea>
+              <span data-fs-error="message" style="color: #c41e3a; font-size: 13px; display: none;"></span>
             </div>
 
-            <button type="submit" class="submit-btn">Share Your Reflection</button>
+            <button type="submit" class="submit-btn" data-fs-submit-btn>Share Your Reflection</button>
           </form>
         </div>
       </div>
@@ -707,31 +713,27 @@
       .catch(error => console.error('Error:', error));
     });
 
-    // Testimonial form submission
-    document.getElementById('testimonialForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+    // Formspree AJAX integration for testimonials
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#testimonialForm', formId: 'mdajeooe' });
+    
+    // Clear form and success message after submission
+    document.getElementById('testimonialForm').addEventListener('formspree.submit.success', function() {
+      // Form should reset automatically, but let's ensure it
+      document.getElementById('testimonialForm').reset();
       
-      // Formspree will handle the submission
-      const formData = new FormData(this);
-      
-      fetch(this.action, {
-        method: 'POST',
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      })
-      .then(response => {
-        if (response.ok) {
-          document.getElementById('testimonialSuccess').classList.add('show');
-          this.reset();
-          
-          setTimeout(() => {
-            document.getElementById('testimonialSuccess').classList.remove('show');
-          }, 4000);
+      // Show success message for 5 seconds
+      setTimeout(() => {
+        const successDiv = document.getElementById('testimonialSuccess');
+        if (successDiv && successDiv.style.display === 'block') {
+          successDiv.style.display = 'none';
         }
-      })
-      .catch(error => console.error('Error:', error));
+      }, 5000);
     });
   </script>
+
+  <!-- Formspree AJAX Library -->
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
 </body>
 </html>
