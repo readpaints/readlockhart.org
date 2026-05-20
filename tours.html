@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Private Museum Tours in Madrid — Read Lockhart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:      #f5f1eb;
+      --linen:      #ede8df;
+      --stone:      #c8c0b4;
+      --slate:      #7a7670;
+      --charcoal:   #2e2c29;
+      --ink:        #1a1815;
+      --accent:     #8a7f6e;
+      --warm-white: #faf8f4;
+      --font-display: 'Jost', sans-serif;
+      --font-body:    'Cormorant Garamond', serif;
+      --max-w: 1200px;
+      --nav-h: 72px;
+    }
+    
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--warm-white);
+      color: var(--charcoal);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(250,248,244,0.93);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--linen);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; z-index: 100;
+    }
+    .nav-name {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 15px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink);
+    }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--slate); transition: color 0.25s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--accent);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* MAIN CONTENT */
+    .content { padding-top: var(--nav-h); }
+    .section { padding: 60px 48px; max-width: var(--max-w); margin: 0 auto; }
+    
+    /* HERO SECTION */
+    .hero-tours {
+      text-align: center;
+      padding-top: 100px;
+      padding-bottom: 60px;
+    }
+    .hero-tours h1 {
+      font-family: var(--font-display); font-weight: 200;
+      font-size: clamp(48px, 5vw, 72px); letter-spacing: -0.01em;
+      line-height: 1.1; color: var(--ink); margin-bottom: 20px;
+    }
+    .hero-tours .subtitle {
+      font-family: var(--font-body); font-style: italic; font-weight: 300;
+      font-size: clamp(18px, 2vw, 22px); color: var(--slate); line-height: 1.6;
+      max-width: 600px; margin: 0 auto 30px;
+    }
+    .divider-line {
+      width: 60px; height: 1px; background: var(--stone); margin: 30px auto;
+    }
+
+    /* ABOUT SECTION */
+    .about-box {
+      background: var(--linen); padding: 40px;
+      border: 1px solid var(--stone); margin-bottom: 60px;
+      max-width: 700px; margin-left: auto; margin-right: auto;
+    }
+    .about-box p {
+      margin-bottom: 16px; color: var(--charcoal); line-height: 1.8;
+    }
+    .about-box p:last-child { margin-bottom: 0; }
+
+    /* DIFFERENCES SECTION */
+    .differences {
+      max-width: 700px; margin: 0 auto 60px;
+    }
+    .differences h2 {
+      font-family: var(--font-display); font-weight: 200;
+      font-size: clamp(36px, 4vw, 48px); text-align: center;
+      color: var(--ink); margin-bottom: 40px;
+    }
+    .differences ul {
+      list-style: none;
+    }
+    .differences li {
+      margin-bottom: 18px; font-size: 18px;
+      line-height: 1.6; margin-left: 20px;
+    }
+    .differences li::before {
+      content: '•'; color: var(--slate); margin-right: 20px; flex-shrink: 0;
+    }
+    .differences li strong {
+      font-weight: 400; color: var(--ink);
+    }
+
+    /* TOURS SECTION */
+    .tours-container {
+      max-width: 900px; margin: 0 auto;
+    }
+    .tour-card {
+      border: 1px solid var(--stone); padding: 32px; margin-bottom: 24px;
+      background: white; cursor: pointer; transition: all 0.3s;
+    }
+    .tour-card:hover {
+      border-color: var(--charcoal); box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .tour-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
+    .tour-title {
+      font-family: var(--font-display); font-weight: 400;
+      font-size: 22px; color: var(--ink); margin-bottom: 12px;
+    }
+    .tour-theme {
+      color: var(--slate); font-style: italic; font-size: 16px; margin-bottom: 16px;
+    }
+    .tour-toggle {
+      background: none; border: none; cursor: pointer;
+      font-family: var(--font-display); color: var(--slate);
+      font-size: 20px; transition: transform 0.3s;
+    }
+    .tour-toggle.open { transform: rotate(180deg); }
+    .tour-description {
+      display: none; margin-top: 24px; padding-top: 24px;
+      border-top: 1px solid var(--linen); color: var(--charcoal); line-height: 1.8;
+    }
+    .tour-description.show { display: block; }
+    .tour-works {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px;
+    }
+    .work-tag {
+      font-size: 12px; padding: 6px 12px; border: 1px solid var(--stone);
+      color: var(--charcoal); font-family: var(--font-display);
+    }
+
+    /* PRICING SECTION */
+    .pricing-container { max-width: 900px; margin: 0 auto; }
+    .pricing-intro { text-align: center; margin-bottom: 60px; }
+    .pricing-intro h2 {
+      font-family: var(--font-display); font-weight: 200;
+      font-size: 48px; color: var(--ink); margin-bottom: 12px;
+    }
+    .pricing-intro p { color: var(--slate); font-size: 16px; }
+    .price-row { display: flex; justify-content: space-between; padding: 12px 0;
+      border-bottom: 1px solid var(--linen); font-size: 16px;
+    }
+    .price-label { color: var(--charcoal); }
+    .price-amount { font-family: var(--font-display); color: var(--ink); font-weight: 400; }
+    .pricing-box {
+      border: 1px solid var(--stone); padding: 32px; margin-bottom: 48px; background: white;
+    }
+    .pricing-box h3 {
+      font-family: var(--font-display); font-weight: 400; font-size: 20px;
+      color: var(--ink); margin-bottom: 24px;
+    }
+    .pricing-note {
+      font-size: 14px; color: var(--slate); margin-top: 16px; font-style: italic;
+    }
+    .info-box {
+      background: var(--linen); padding: 32px; border: 1px solid var(--stone);
+      margin-top: 60px; text-align: center; max-width: 700px; margin-left: auto; margin-right: auto;
+    }
+    .info-box p { color: var(--charcoal); line-height: 1.8; font-size: 16px; }
+
+    /* FORM SECTION */
+    .form-container { max-width: 700px; margin: 0 auto; }
+    .form-section {
+      border: 1px solid var(--stone); padding: 40px; background: white; margin-bottom: 48px;
+    }
+    .form-section h2 {
+      font-family: var(--font-display); font-weight: 200;
+      font-size: 40px; color: var(--ink); margin-bottom: 10px;
+    }
+    .form-section > p { color: var(--slate); margin-bottom: 24px; font-size: 16px; }
+
+    .form-group { margin-bottom: 24px; }
+    .form-group label {
+      display: block; font-family: var(--font-display); font-weight: 300;
+      font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--charcoal); margin-bottom: 8px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%; padding: 12px 16px; border: 1px solid var(--stone);
+      background: white; color: var(--charcoal); font-family: var(--font-body);
+      font-size: 16px; line-height: 1.6;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none; border-color: var(--charcoal);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-help-text {
+      font-size: 12px; color: var(--slate); margin-top: 6px; font-style: italic;
+    }
+
+    .interests-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 8px; margin-bottom: 16px;
+    }
+    .interest-btn {
+      padding: 10px 14px; border: 1px solid var(--stone); background: white;
+      color: var(--charcoal); cursor: pointer; font-family: var(--font-display);
+      font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .interest-btn:hover { border-color: var(--charcoal); }
+    .interest-btn.selected {
+      background: var(--charcoal); color: var(--cream); border-color: var(--charcoal);
+    }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+    .submit-btn {
+      width: 100%; padding: 16px; background: var(--charcoal); color: var(--cream);
+      border: 1px solid var(--charcoal); cursor: pointer; font-family: var(--font-display);
+      font-weight: 300; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+      transition: all 0.3s; margin-top: 8px;
+    }
+    .submit-btn:hover { background: transparent; color: var(--charcoal); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .form-success {
+      display: none; padding: 24px; background: #f0f9ff; border: 1px solid #0ea5e9;
+      color: #0c4a6e; margin-bottom: 24px; text-align: center; font-size: 15px;
+    }
+    .form-success.show { display: block; }
+
+    /* TESTIMONIALS SECTION */
+    .testimonials-section {
+      border-top: 1px solid var(--linen); padding-top: 60px;
+    }
+    .testimonials-container { max-width: 700px; margin: 0 auto; }
+    .testimonials-title {
+      font-family: var(--font-display); font-weight: 200;
+      font-size: 40px; text-align: center; color: var(--ink); margin-bottom: 36px;
+    }
+
+    .testimonial-list { margin-bottom: 48px; }
+    .testimonial-item {
+      border: 1px solid var(--stone); padding: 28px; margin-bottom: 20px;
+      background: white;
+    }
+    .testimonial-text {
+      color: var(--charcoal); font-style: italic; margin-bottom: 16px;
+      line-height: 1.8; font-size: 16px;
+    }
+    .testimonial-author {
+      font-family: var(--font-display); font-weight: 400; color: var(--ink);
+      font-size: 14px;
+    }
+    .testimonial-location {
+      color: var(--slate); font-size: 12px; margin-top: 2px;
+    }
+
+    .testimonial-form {
+      border: 1px solid var(--stone); padding: 48px; background: white;
+    }
+    .testimonial-form h3 {
+      font-family: var(--font-display); font-weight: 400;
+      font-size: 22px; color: var(--ink); margin-bottom: 12px;
+    }
+    .testimonial-form > p {
+      color: var(--slate); font-size: 15px; line-height: 1.7; margin-bottom: 28px;
+    }
+
+    /* IMPORTANT INFO */
+    .important-info {
+      background: white; border: 1px solid var(--stone); padding: 32px;
+      margin-bottom: 40px; max-width: 700px; margin-left: auto; margin-right: auto;
+    }
+    .info-title {
+      font-family: var(--font-display); font-weight: 400; color: var(--ink);
+      font-size: 16px; margin-bottom: 4px;
+    }
+    .info-detail {
+      color: var(--charcoal); font-size: 15px; line-height: 1.7; margin-bottom: 20px;
+    }
+    .info-detail:last-child { margin-bottom: 0; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--linen);
+      padding: 40px; text-align: center; margin-top: 60px;
+    }
+    .footer-name {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--ink); display: block; margin-bottom: 12px;
+    }
+    .footer-copy {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 10px; letter-spacing: 0.1em; color: var(--slate);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .section { padding: 60px 24px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .nav-links { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-name">Read Lockhart</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Portfolio</a></li>
+      <li><a href="tours.html">Tours</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- HERO -->
+    <section class="section hero-tours">
+      <h1>Private Museum Tours in Madrid</h1>
+      <p class="subtitle">See the Prado, Reina Sofía, and Thyssen-Bornemisza through the eyes of a working artist.</p>
+      <div class="divider-line"></div>
+    </section>
+
+    <!-- CORE CONCEPT -->
+    <section class="section" style="padding: 60px 48px;">
+      <div style="max-width: 700px; margin: 0 auto;">
+        <p style="font-size: 17px; margin-bottom: 20px; line-height: 1.8; color: var(--charcoal);">Museums today can overwhelm even experienced visitors. Endless masterpieces, crowded rooms, exhausted feet, and the strange feeling that you've seen everything without truly seeing anything at all.</p>
+        
+        <p style="font-size: 17px; margin-bottom: 20px; line-height: 1.8; color: var(--charcoal);">These tours are designed to slow the experience down through a carefully curated group of paintings shaped around your interests and level of familiarity with art. Rather than trying to cover the entire museum, we spend real time with a smaller number of works in order to look more deeply and attentively.</p>
+        
+        <p style="font-size: 17px; margin-bottom: 20px; line-height: 1.8; color: var(--charcoal);">The focus is not simply on what art history tells us is important, but on how paintings actually function: color, edge, composition, rhythm, light, narrative, surface, and the decisions that separate truly great paintings from merely accomplished ones.</p>
+        
+        <p style="font-size: 17px; margin-bottom: 20px; line-height: 1.8; color: var(--charcoal);">I will approach the Prado as your guide and as a professional painter with more than twenty years of experience. I have spent years studying, teaching, and returning to these collections. I hold an MFA in Painting from the Pennsylvania Academy of the Fine Arts and previously taught university-level drawing and painting in the United States.</p>
+        
+        <p style="color: var(--slate); font-style: italic; font-size: 16px; text-align: center; margin-top: 32px;">Ideal for curious travelers, artists, collectors, students, couples, and anyone seeking a more intimate encounter with great painting.</p>
+      </div>
+    </section>
+
+    <!-- WHAT MAKES DIFFERENT -->
+    <section class="section" style="padding: 60px 48px;">
+      <div class="differences">
+        <h2>What Makes These Tours Different?</h2>
+        <ul>
+          <li><strong>Small groups only.</strong> Conversation scale, not cattle herds.</li>
+          <li><strong>Responsive, conversational format.</strong> Not a script. If something moves you, we linger.</li>
+          <li><strong>Focus on how paintings actually work.</strong> Color, edge, composition, the decisions painters make.</li>
+          <li><strong>Led by a practicing painter.</strong> Not a scholar reciting facts, but someone actively wrestling with art.</li>
+          <li><strong>Designed for curiosity, not checklist tourism.</strong> We care about what you see, not how many paintings we cover.</li>
+          <li><strong>Direct conversation, not amplified systems.</strong> Whenever museum conditions allow, tours are conducted in normal speaking voices rather than through headset systems. Intentional. Human. Present.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TOURS -->
+    <section class="section" style="padding: 60px 48px;">
+      <div class="tours-container">
+        <h2 style="text-align: center; font-family: var(--font-display); font-weight: 200; font-size: 48px; color: var(--ink); margin-bottom: 48px;">Three Experiences</h2>
+        
+        <div class="tour-card" onclick="toggleTour(this)">
+          <div class="tour-header">
+            <div style="flex: 1;">
+              <h3 class="tour-title">The Prado Through a Painter's Eyes</h3>
+              <p class="tour-theme">How painting evolved from symbol into living perception</p>
+            </div>
+            <button class="tour-toggle" onclick="event.stopPropagation()">▼</button>
+          </div>
+          <div class="tour-description">
+            <p>Your flagship experience. The Prado can overwhelm—endless galleries, masterpieces competing for attention. We slow it down. A curated journey through Bosch, Titian, Rubens, El Greco, Velázquez, Goya, and others. We explore not just what these paintings mean, but how they <em>work</em>: color fighting under thin paint, edges that dissolve or hold firm, compositional rhythms that pull your eye. The decisions that separate masterpieces from the forgettable.</p>
+            
+            <div style="margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--linen);">
+              <p style="font-weight: 500; color: var(--ink); margin-bottom: 8px;">Duration</p>
+              <p style="color: var(--charcoal); margin-bottom: 16px;">2 to 2.5 hours — flexible and responsive to your pace. Tours won't be shortened unless you prefer, and may extend if questions, insights, and energy allow.</p>
+              
+              <p style="font-weight: 500; color: var(--ink); margin-bottom: 8px;">What's Included</p>
+              <p style="color: var(--charcoal); margin-bottom: 16px;">Private guided experience with a professional painter. Curated selection of masterworks. Real time spent looking deeply rather than covering the entire museum.</p>
+              
+              <p style="font-weight: 500; color: var(--ink); margin-bottom: 8px;">Pricing</p>
+              <p style="color: var(--charcoal); margin-bottom: 6px;"><strong>€300</strong> for 1–2 guests</p>
+              <p style="color: var(--charcoal); margin-bottom: 16px;">€50 per additional guest</p>
+              <p style="font-size: 14px; color: var(--slate); margin-bottom: 16px;"><em>Museum admission not included. Optional ticket coordination available for an additional fee with advance notice.</em></p>
+              
+              <a href="#bookingForm" class="submit-btn" style="display: inline-block; width: auto; padding: 12px 32px; margin: 0;">Request This Tour</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="tour-card" onclick="toggleTour(this)">
+          <div class="tour-header">
+            <div style="flex: 1;">
+              <h3 class="tour-title">Guernica and Modernity</h3>
+              <p class="tour-theme">War, fragmentation, modernism, and how visual language transformed</p>
+            </div>
+            <button class="tour-toggle" onclick="event.stopPropagation()">▼</button>
+          </div>
+          <div class="tour-description">
+            <p>Sharper. Smaller. Emotionally concentrated. Guernica hits differently in person—the scale, the intensity, the raw response. We sit with it, along with selected modern works, exploring how painters responded to 20th-century fracture. Why abstraction happened. What modernism cost. How vision itself <em>changed</em>.</p>
+            
+            <div style="margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--linen);">
+              <p style="font-weight: 500; color: var(--ink); margin-bottom: 8px;">Duration</p>
+              <p style="color: var(--charcoal); margin-bottom: 16px;">60 to 90 minutes — flexible and responsive to your pace. Guernica is emotionally concentrated; timing depends on how deeply you want to go.</p>
+              
+              <p style="font-weight: 500; color: var(--ink); margin-bottom: 8px;">What's Included</p>
+              <p style="color: var(--charcoal); margin-bottom: 16px;">Private guided experience with a professional painter. Deep engagement with Guernica. Context and conversation around modernism and twentieth-century art.</p>
+              
+              <p style="font-weight: 500; color: var(--ink); margin-bottom: 8px;">Pricing</p>
+              <p style="color: var(--charcoal); margin-bottom: 6px;"><strong>€180</strong> for 1–2 guests</p>
+              <p style="color: var(--charcoal); margin-bottom: 16px;">€40 per additional guest</p>
+              <p style="font-size: 14px; color: var(--slate); margin-bottom: 16px;"><em>Museum admission not included. Optional ticket coordination available for an additional fee with advance notice.</em></p>
+              
+              <a href="#bookingForm" class="submit-btn" style="display: inline-block; width: auto; padding: 12px 32px; margin: 0;">Request This Tour</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="tour-card" onclick="toggleTour(this)">
+          <div class="tour-header">
+            <div style="flex: 1;">
+              <h3 class="tour-title">How Painting Changed the Way We See</h3>
+              <p class="tour-theme">A walk through centuries—from devotional objects to postwar abstraction</p>
+            </div>
+            <button class="tour-toggle" onclick="event.stopPropagation()">▼</button>
+          </div>
+          <div class="tour-description">
+            <p>The Thyssen reads almost like a visual history book, told through centuries of paint. Early devotional gold leaf to Venetian color flooding the canvas, Dutch light becoming introspective, Impressionist moments caught mid-breath, abstraction breaking form open, postwar artists rebuilding meaning from fragments. Time travel through how humans learned to see.</p>
+            
+            <div style="margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--linen);">
+              <p style="font-weight: 500; color: var(--ink); margin-bottom: 8px;">Duration</p>
+              <p style="color: var(--charcoal); margin-bottom: 16px;">2 to 2.5 hours — flexible and responsive to your pace. Tours won't be shortened unless you prefer, and may extend if questions, insights, and energy allow.</p>
+              
+              <p style="font-weight: 500; color: var(--ink); margin-bottom: 8px;">What's Included</p>
+              <p style="color: var(--charcoal); margin-bottom: 16px;">Private guided experience with a professional painter. A walking tour through the evolution of Western painting. Real time spent with key works across centuries.</p>
+              
+              <p style="font-weight: 500; color: var(--ink); margin-bottom: 8px;">Pricing</p>
+              <p style="color: var(--charcoal); margin-bottom: 6px;"><strong>€300</strong> for 1–2 guests</p>
+              <p style="color: var(--charcoal); margin-bottom: 16px;">€50 per additional guest</p>
+              <p style="font-size: 14px; color: var(--slate); margin-bottom: 16px;"><em>Museum admission not included. Optional ticket coordination available for an additional fee with advance notice.</em></p>
+              
+              <a href="#bookingForm" class="submit-btn" style="display: inline-block; width: auto; padding: 12px 32px; margin: 0;">Request This Tour</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOUR STYLE & LOGISTICS -->
+    <section class="section" style="padding: 60px 48px;">
+      <div style="max-width: 700px; margin: 0 auto;">
+        <div style="margin-bottom: 40px;">
+          <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 18px; color: var(--ink); margin-bottom: 16px;">Tour Style</h3>
+          <p style="color: var(--charcoal); font-size: 16px; line-height: 1.7; margin-bottom: 12px;">These tours are designed as direct conversations with the paintings themselves rather than formal scripted presentations.</p>
+          <p style="color: var(--charcoal); font-size: 16px; line-height: 1.7; margin-bottom: 12px;">All tours are personal and conducted in normal speaking voices rather than through headset systems.</p>
+          <p style="color: var(--charcoal); font-size: 16px; line-height: 1.7;">The goal is to create a more natural, attentive, and human experience inside the museum.</p>
+        </div>
+
+        <div style="border-top: 1px solid var(--linen); padding-top: 32px;">
+          <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 18px; color: var(--ink); margin-bottom: 16px;">Language</h3>
+          <p style="color: var(--charcoal); font-size: 16px; line-height: 1.7; margin-bottom: 12px;">Tours are currently offered in English only.</p>
+          <p style="color: var(--charcoal); font-size: 16px; line-height: 1.7; margin-bottom: 12px;">Over many years of travel and teaching, I have spent a great deal of time speaking with non-native English speakers and can adjust pace, vocabulary, and conversational complexity when helpful. However, I cannot switch fluidly between languages the way larger commercial tour systems sometimes can.</p>
+          <p style="color: var(--charcoal); font-size: 16px; line-height: 1.7;">I am actively learning Spanish, but at present all tours and discussions are conducted in English in order to maintain clarity, depth, and conversational quality.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMPORTANT INFO -->
+    <section class="section">
+      <div class="important-info">
+        <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 16px; color: var(--ink); margin-bottom: 16px;">Museum Admission</h3>
+        <p style="color: var(--charcoal); font-size: 15px; line-height: 1.7;">Museum entry fees are separate from tour pricing (typically €5–15 per museum). You may purchase tickets yourself, or I can arrange them for you as described in the tour options above.</p>
+      </div>
+    </section>
+
+    <!-- BOOKING FORM -->
+    <section class="section">
+      <div class="form-container">
+        <div class="form-section">
+          <h2>Request a Tour</h2>
+          <p>Tell me about your group, preferences, and ideal timing. I'll confirm by email or WhatsApp within 48 hours.</p>
+
+          <div class="form-success" id="formSuccess">Thank you! I'll be in touch shortly.</div>
+
+          <form id="bookingForm" action="https://formspree.io/f/xrededzd" method="POST">
+            
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Name *</label>
+                <input type="text" name="name" required>
+              </div>
+              <div class="form-group">
+                <label>Email *</label>
+                <input type="email" name="email" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>WhatsApp / Phone (optional)</label>
+              <input type="tel" name="phone">
+            </div>
+
+            <div class="form-group">
+              <label>Which museum interests you? *</label>
+              <select name="museum" required>
+                <option value="">Select a tour</option>
+                <option value="The Prado Through a Painter's Eyes">The Prado Through a Painter's Eyes</option>
+                <option value="Guernica and Modernity at Reina Sofía">Guernica and Modernity at Reina Sofía</option>
+                <option value="How Painting Changed the Way We See">How Painting Changed the Way We See (Thyssen)</option>
+              </select>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Number of guests *</label>
+                <select name="guests" required>
+                  <option value="1">1 guest</option>
+                  <option value="2" selected>2 guests</option>
+                  <option value="3">3 guests</option>
+                  <option value="4">4 guests</option>
+                  <option value="5">5 guests</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Preferred date *</label>
+                <input type="date" name="date" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Preferred time *</label>
+              <select name="time" required>
+                <option value="">Select a time</option>
+                <option value="9:00">9:00 AM</option>
+                <option value="10:00">10:00 AM</option>
+                <option value="11:00">11:00 AM</option>
+                <option value="2:00">2:00 PM</option>
+                <option value="3:00">3:00 PM</option>
+                <option value="4:00">4:00 PM</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Would you like assistance arranging museum tickets?</label>
+              <select name="ticketAssistance" required>
+                <option value="No, I will purchase tickets myself">No, I will purchase tickets myself</option>
+                <option value="Yes, please arrange tickets for my group">Yes, please arrange tickets for my group</option>
+              </select>
+              <p class="form-help-text">Ticket coordination is €7 per person (museum admission not included). Requests require at least 48 hours' notice and are subject to museum availability.</p>
+            </div>
+
+            <div class="form-group">
+              <label>What interests you? (select any)</label>
+              <div class="interests-grid">
+                <button type="button" class="interest-btn" data-interest="Old Masters">Old Masters</button>
+                <button type="button" class="interest-btn" data-interest="Velázquez">Velázquez</button>
+                <button type="button" class="interest-btn" data-interest="Goya">Goya</button>
+                <button type="button" class="interest-btn" data-interest="Modern Art">Modern Art</button>
+                <button type="button" class="interest-btn" data-interest="Painting Technique">Painting Technique</button>
+                <button type="button" class="interest-btn" data-interest="Spanish History">Spanish History</button>
+                <button type="button" class="interest-btn" data-interest="Family-Friendly">Family-Friendly</button>
+                <button type="button" class="interest-btn" data-interest="Color & Light">Color & Light</button>
+              </div>
+              <input type="hidden" name="interests" id="interestsInput">
+            </div>
+
+            <div class="form-group">
+              <label>Notes or questions</label>
+              <textarea name="notes" placeholder="Tell me about your group, what you're hoping to experience, or any special interests..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Request a Tour</button>
+            <p style="text-align: center; color: var(--slate); font-size: 13px; margin-top: 12px;">I'll confirm availability within 48 hours.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section testimonials-section">
+      <div class="testimonials-container">
+        <h2 class="testimonials-title">Share Your Experience</h2>
+        
+        <p style="text-align: center; color: var(--slate); margin-bottom: 48px; font-size: 15px;">Have you been on one of my tours? I'd love to hear what it meant to you. Your honest reflection helps others understand what to expect, and it matters to me.</p>
+
+        <div class="testimonial-form">
+          <h3>Add Your Reflection</h3>
+          
+          <div id="testimonialSuccess" data-fs-success style="display: none; background: #f0f8f0; border: 1px solid #d4edda; color: #155724; padding: 16px; margin-bottom: 24px; border-radius: 4px; text-align: center; font-size: 15px;">
+            ✓ Thank you. Your reflection has been received.
+          </div>
+          <div data-fs-error style="display: none; color: #721c24; background: #fef3f3; border: 1px solid #f5d5d5; padding: 12px; margin-bottom: 20px; border-radius: 4px;"></div>
+
+          <form id="testimonialForm" data-fs-form>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Your name</label>
+                <input type="text" name="name" placeholder="Your name" data-fs-field required>
+                <span data-fs-error="name" style="color: #c41e3a; font-size: 13px; display: none;"></span>
+              </div>
+              <div class="form-group">
+                <label>City / Location (optional)</label>
+                <input type="text" name="location" placeholder="London, Madrid, etc." data-fs-field>
+                <span data-fs-error="location" style="color: #c41e3a; font-size: 13px; display: none;"></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>What was your experience?</label>
+              <textarea name="message" placeholder="What stood out? What did you learn? How did it change how you see?" data-fs-field required></textarea>
+              <span data-fs-error="message" style="color: #c41e3a; font-size: 13px; display: none;"></span>
+            </div>
+
+            <button type="submit" class="submit-btn" data-fs-submit-btn>Share Your Reflection</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FINAL IMAGE -->
+  <section style="padding: 80px 48px 60px 48px; text-align: center;">
+    <div style="max-width: 500px; margin: 0 auto;">
+      <img src="plein-air-studio.jpg" alt="" style="width: 100%; height: auto; display: block;">
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-name">Read Lockhart</span>
+    <span class="footer-copy">&copy; 2025 Read Lockhart. All rights reserved.</span>
+  </footer>
+
+  <script>
+    // Tour toggle functionality
+    function toggleTour(card) {
+      const desc = card.querySelector('.tour-description');
+      const btn = card.querySelector('.tour-toggle');
+      desc.classList.toggle('show');
+      btn.classList.toggle('open');
+    }
+
+    // Interest buttons
+    document.querySelectorAll('.interest-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        this.classList.toggle('selected');
+        updateInterests();
+      });
+    });
+
+    function updateInterests() {
+      const selected = Array.from(document.querySelectorAll('.interest-btn.selected'))
+        .map(btn => btn.dataset.interest);
+      document.getElementById('interestsInput').value = selected.join(', ');
+    }
+
+    // Booking form submission
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Formspree will handle the submission
+      const formData = new FormData(this);
+      
+      fetch(this.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(response => {
+        if (response.ok) {
+          document.getElementById('formSuccess').classList.add('show');
+          this.reset();
+          document.querySelectorAll('.interest-btn').forEach(btn => btn.classList.remove('selected'));
+          document.getElementById('interestsInput').value = '';
+          
+          setTimeout(() => {
+            document.getElementById('formSuccess').classList.remove('show');
+          }, 4000);
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    });
+
+    // Formspree AJAX integration for testimonials
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#testimonialForm', formId: 'mdajeooe' });
+    
+    // Clear form and success message after submission
+    document.getElementById('testimonialForm').addEventListener('formspree.submit.success', function() {
+      // Form should reset automatically, but let's ensure it
+      document.getElementById('testimonialForm').reset();
+      
+      // Show success message for 5 seconds
+      setTimeout(() => {
+        const successDiv = document.getElementById('testimonialSuccess');
+        if (successDiv && successDiv.style.display === 'block') {
+          successDiv.style.display = 'none';
+        }
+      }, 5000);
+    });
+  </script>
+
+  <!-- Formspree AJAX Library -->
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
+</body>
+</html>

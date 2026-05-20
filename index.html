@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Read Lockhart — Painter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:      #f5f1eb;
+      --linen:      #ede8df;
+      --stone:      #c8c0b4;
+      --slate:      #7a7670;
+      --charcoal:   #2e2c29;
+      --ink:        #1a1815;
+      --accent:     #8a7f6e;
+      --warm-white: #faf8f4;
+      --font-display: 'Jost', sans-serif;
+      --font-body:    'Cormorant Garamond', serif;
+      --max-w: 1200px;
+      --nav-h: 72px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--warm-white);
+      color: var(--charcoal);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(250,248,244,0.93);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--linen);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; z-index: 100;
+    }
+    .nav-name {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 15px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink);
+    }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--slate); transition: color 0.25s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--accent);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; padding-top: var(--nav-h);
+      display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+    }
+    .hero-text { padding: 80px 64px 80px 80px; display: flex; flex-direction: column; justify-content: center; }
+    .hero-eyebrow {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 28px;
+    }
+    .hero-name {
+      font-family: var(--font-display); font-weight: 200;
+      font-size: clamp(52px, 6vw, 88px); letter-spacing: -0.01em;
+      line-height: 1.0; color: var(--ink); margin-bottom: 32px;
+    }
+    .hero-tagline {
+      font-family: var(--font-body); font-style: italic; font-weight: 300;
+      font-size: clamp(19px, 2vw, 25px); color: var(--slate); line-height: 1.55;
+      max-width: 400px; margin-bottom: 48px;
+      border-left: 1px solid var(--stone); padding-left: 24px;
+    }
+    .hero-cta { display: flex; gap: 24px; align-items: center; }
+    .btn-primary {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      background: var(--charcoal); color: var(--cream);
+      padding: 14px 32px; border: 1px solid var(--charcoal);
+      transition: background 0.3s, color 0.3s; cursor: pointer; display: inline-block;
+    }
+    .btn-primary:hover { background: transparent; color: var(--charcoal); }
+    .btn-ghost {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--slate); border-bottom: 1px solid var(--stone);
+      padding-bottom: 2px; transition: color 0.25s, border-color 0.25s;
+    }
+    .btn-ghost:hover { color: var(--ink); border-color: var(--ink); }
+    .hero-image { height: 100vh; position: relative; overflow: hidden; background: var(--linen); }
+    .hero-image img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-image-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(160deg, #ddd8cf 0%, #c4bdb2 40%, #a89f93 100%);
+      display: flex; align-items: flex-end; padding: 40px;
+    }
+    .hero-caption {
+      font-family: var(--font-body); font-style: italic;
+      font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.05em;
+    }
+
+    /* UTILITIES */
+    .section-label {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: var(--font-display); font-weight: 200;
+      font-size: clamp(32px, 4vw, 52px); color: var(--ink);
+      letter-spacing: -0.01em; margin-bottom: 48px; line-height: 1.1;
+    }
+    .full-rule { border: none; border-top: 1px solid var(--linen); margin: 0; }
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* WORKS */
+    #works { padding: 120px 80px; max-width: var(--max-w); margin: 0 auto; }
+    .works-tabs {
+      display: flex; gap: 0; margin-bottom: 48px;
+      border-bottom: 1px solid var(--linen);
+    }
+    .tab-btn {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--slate); background: none; border: none;
+      padding: 12px 0; margin-right: 36px; cursor: pointer;
+      position: relative; transition: color 0.25s;
+    }
+    .tab-btn::after {
+      content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+      height: 1px; background: var(--ink);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+    }
+    .tab-btn.active { color: var(--ink); }
+    .tab-btn.active::after { transform: scaleX(1); }
+    .tab-btn:hover { color: var(--ink); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .works-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; }
+    .work-item { position: relative; cursor: pointer; overflow: hidden; background: var(--linen); }
+    .work-thumb { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; transition: transform 0.6s ease; }
+    .work-thumb-ph { width: 100%; aspect-ratio: 3/4; display: block; transition: transform 0.6s ease; }
+    .work-item:hover .work-thumb,
+    .work-item:hover .work-thumb-ph { transform: scale(1.04); }
+    .work-overlay {
+      position: absolute; inset: 0; background: rgba(26,24,21,0);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 24px; transition: background 0.4s;
+    }
+    .work-item:hover .work-overlay { background: rgba(26,24,21,0.62); }
+    .work-info { opacity: 0; transform: translateY(8px); transition: opacity 0.3s, transform 0.3s; }
+    .work-item:hover .work-info { opacity: 1; transform: translateY(0); }
+    .work-title { font-family: var(--font-body); font-style: italic; font-size: 17px; color: var(--cream); margin-bottom: 4px; }
+    .work-meta { font-family: var(--font-display); font-weight: 300; font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--stone); }
+    .work-badge {
+      position: absolute; top: 14px; right: 14px;
+      font-family: var(--font-display); font-size: 9px; font-weight: 300;
+      letter-spacing: 0.2em; text-transform: uppercase; padding: 5px 10px;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .work-item:hover .work-badge { opacity: 1; }
+    .badge-avail { background: var(--charcoal); color: var(--cream); }
+    .badge-sold  { border: 1px solid var(--slate); color: var(--stone); }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none; position: fixed; inset: 0;
+      background: rgba(16,14,12,0.97); z-index: 1000;
+      align-items: center; justify-content: center; padding: 40px;
+    }
+    .lightbox.open { display: flex; }
+    .lb-inner {
+      position: relative; display: flex; gap: 52px;
+      align-items: center; max-width: 90vw; max-height: 90vh;
+    }
+    .lb-img-wrap { flex: 0 0 auto; max-height: 85vh; display: flex; align-items: center; }
+    .lb-img-wrap img { max-height: 92vh; max-width: 72vw; object-fit: contain; display: block; }
+    .lb-img-ph { width: 420px; height: 560px; background: linear-gradient(160deg,#383330 0%,#242120 100%); display: block; }
+    .lb-info { min-width: 200px; max-width: 260px; }
+    .lb-title { font-family: var(--font-body); font-style: italic; font-size: 26px; color: var(--cream); margin-bottom: 16px; line-height: 1.2; }
+    .lb-detail { font-family: var(--font-display); font-weight: 300; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate); line-height: 2.1; }
+    .lb-desc { font-size: 15px; color: var(--stone); font-style: italic; line-height: 1.7; margin: 18px 0 24px; }
+    .lb-close {
+      position: fixed; top: 24px; right: 32px;
+      font-family: var(--font-display); font-weight: 200; font-size: 30px;
+      color: var(--slate); background: none; border: none; cursor: pointer;
+      transition: color 0.2s; z-index: 1002; line-height: 1;
+    }
+    .lb-close:hover { color: var(--cream); }
+    .lb-nav {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: var(--slate);
+      font-family: var(--font-display); font-weight: 200; font-size: 36px;
+      cursor: pointer; transition: color 0.2s; padding: 12px; z-index: 1002;
+    }
+    .lb-nav:hover { color: var(--cream); }
+    .lb-prev { left: 16px; }
+    .lb-next { right: 16px; }
+    .btn-inquire {
+      display: inline-block; font-family: var(--font-display); font-weight: 300;
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+      border: 1px solid var(--stone); color: var(--stone);
+      padding: 11px 24px; transition: background 0.3s, color 0.3s, border-color 0.3s; cursor: pointer;
+    }
+    .btn-inquire:hover { background: var(--cream); color: var(--charcoal); border-color: var(--cream); }
+
+    /* SHOP */
+    #shop { background: var(--linen); padding: 120px 0; }
+    .shop-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 80px; }
+    .shop-intro { font-size: 17px; color: var(--slate); max-width: 540px; font-style: italic; margin-top: -24px; margin-bottom: 0; }
+    .shop-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; margin-top: 48px; }
+    .shop-card { background: var(--warm-white); border: 1px solid var(--stone); overflow: hidden; }
+    .shop-card-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+    .shop-card-img-ph { width: 100%; aspect-ratio: 4/3; display: block; }
+    .shop-card-body { padding: 22px 26px 28px; }
+    .shop-card-type { font-family: var(--font-display); font-weight: 300; font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .shop-card-title { font-family: var(--font-body); font-style: italic; font-size: 20px; color: var(--ink); margin-bottom: 8px; }
+    .shop-card-desc { font-size: 14px; color: var(--slate); margin-bottom: 16px; line-height: 1.6; }
+    .shop-card-price { font-family: var(--font-display); font-weight: 300; font-size: 15px; color: var(--charcoal); letter-spacing: 0.05em; margin-bottom: 16px; }
+    .btn-inquire-dark {
+      display: inline-block; font-family: var(--font-display); font-weight: 300;
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+      border: 1px solid var(--charcoal); color: var(--charcoal);
+      padding: 11px 24px; transition: background 0.3s, color 0.3s; cursor: pointer;
+    }
+    .btn-inquire-dark:hover { background: var(--charcoal); color: var(--cream); }
+
+    /* ABOUT */
+    #about { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; max-width: var(--max-w); padding: 120px 80px; margin: 0 auto; }
+    .about-img-wrap { position: sticky; top: calc(var(--nav-h) + 40px); }
+    .about-img-wrap img,
+    .about-img-ph { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
+    .about-img-ph { background: linear-gradient(170deg, #ccc5bb 0%, #a8a095 100%); }
+    .about-text h2 { font-family: var(--font-display); font-weight: 200; font-size: clamp(32px,3.5vw,48px); color: var(--ink); letter-spacing: -0.01em; margin-bottom: 36px; line-height: 1.1; }
+    .about-statement { font-style: italic; font-size: 20px; color: var(--slate); line-height: 1.65; border-left: 1px solid var(--stone); padding-left: 24px; margin-bottom: 32px; }
+    .about-body { font-size: 17px; color: var(--charcoal); line-height: 1.85; margin-bottom: 40px; }
+    .about-body p + p { margin-top: 18px; }
+
+    /* CV */
+    .cv-block { margin-top: 44px; border-top: 1px solid var(--linen); padding-top: 36px; }
+    .cv-heading { font-family: var(--font-display); font-weight: 300; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+    .cv-row { display: grid; grid-template-columns: 100px 1fr; gap: 16px; margin-bottom: 13px; font-size: 15px; }
+    .cv-year { font-family: var(--font-display); font-weight: 300; font-size: 12px; letter-spacing: 0.06em; color: var(--slate); padding-top: 2px; }
+    .cv-detail { color: var(--charcoal); line-height: 1.6; }
+    .cv-detail strong { font-family: var(--font-display); font-weight: 400; font-size: 13px; font-style: normal; }
+    .cv-detail em { color: var(--slate); font-style: italic; }
+    .cv-dl { display: inline-block; margin-top: 28px; font-family: var(--font-display); font-weight: 300; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid var(--stone); padding-bottom: 2px; transition: color 0.25s; }
+    .cv-dl:hover { color: var(--ink); }
+
+    /* CONTACT */
+    #contact { background: var(--charcoal); padding: 120px 0; }
+    .contact-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .contact-text .section-label { color: var(--stone); }
+    .contact-text h2 { font-family: var(--font-display); font-weight: 200; font-size: clamp(32px,3.5vw,48px); color: var(--cream); letter-spacing: -0.01em; margin-bottom: 24px; line-height: 1.1; }
+    .contact-text p { font-size: 17px; color: var(--stone); line-height: 1.8; margin-bottom: 32px; }
+    .contact-details { display: flex; flex-direction: column; gap: 18px; }
+    .c-label { font-family: var(--font-display); font-weight: 300; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+    .c-value { font-family: var(--font-body); font-size: 16px; color: var(--stone); }
+    .c-value a { border-bottom: 1px solid rgba(200,192,180,0.3); transition: color 0.2s, border-color 0.2s; }
+    .c-value a:hover { color: var(--cream); border-color: var(--stone); }
+    .contact-form { display: flex; flex-direction: column; gap: 22px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-label { font-family: var(--font-display); font-weight: 300; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--stone); }
+    .form-input, .form-textarea {
+      background: transparent; border: none; border-bottom: 1px solid rgba(200,192,180,0.28);
+      color: var(--cream); font-family: var(--font-body); font-size: 17px;
+      padding: 10px 0; outline: none; transition: border-color 0.3s; width: 100%;
+    }
+    .form-input:focus, .form-textarea:focus { border-bottom-color: var(--stone); }
+    .form-textarea { resize: vertical; min-height: 120px; }
+    .form-input::placeholder, .form-textarea::placeholder { color: rgba(200,192,180,0.22); }
+    .btn-send {
+      align-self: flex-start; font-family: var(--font-display); font-weight: 300;
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      background: transparent; color: var(--cream); border: 1px solid var(--stone);
+      padding: 14px 36px; cursor: pointer; transition: background 0.3s, color 0.3s;
+    }
+    .btn-send:hover { background: var(--cream); color: var(--charcoal); }
+
+    /* FOOTER */
+    footer { background: var(--ink); padding: 40px 80px; display: flex; justify-content: space-between; align-items: center; }
+    .footer-name { font-family: var(--font-display); font-weight: 300; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--slate); }
+    .footer-copy { font-family: var(--font-display); font-size: 10px; font-weight: 300; color: var(--accent); letter-spacing: 0.1em; }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      nav { padding: 0 24px; }
+      .nav-links { gap: 20px; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-image { display: none; }
+      .hero-text { padding: 60px 24px; }
+      #works { padding: 80px 24px; }
+      .works-grid { grid-template-columns: 1fr 1fr; }
+      .shop-inner { padding: 0 24px; }
+      .shop-grid { grid-template-columns: 1fr 1fr; }
+      #about { grid-template-columns: 1fr; padding: 80px 24px; }
+      .about-img-wrap { display: none; }
+      .contact-inner { grid-template-columns: 1fr; padding: 0 24px; gap: 48px; }
+      footer { padding: 32px 24px; flex-direction: column; gap: 12px; text-align: center; }
+      .lb-inner { flex-direction: column; gap: 20px; }
+      .lb-img-wrap img { max-width: 92vw; max-height: 75vh; }
+      .lb-img-ph { width: 280px; height: 360px; }
+      .lb-info { max-width: 82vw; min-width: unset; }
+      .cv-row { grid-template-columns: 76px 1fr; }
+    }
+    @media (max-width: 600px) {
+      .works-grid { grid-template-columns: 1fr; }
+      .shop-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ARCHIVE */
+    .archive-reveal { margin-top: 64px; text-align: center; }
+    .archive-btn {
+      background: none; border: 1px solid var(--stone);
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--slate); padding: 12px 32px; cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .archive-btn:hover { border-color: var(--charcoal); color: var(--charcoal); }
+    .archive-panel {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.8s cubic-bezier(0.4,0,0.2,1);
+    }
+    .archive-panel.open { max-height: 9999px; }
+    .archive-note {
+      font-family: var(--font-body); font-size: 15px; color: var(--slate);
+      margin: 40px 0 32px; font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <button class="lb-close" id="lb-close" aria-label="Close">&#215;</button>
+    <button class="lb-nav lb-prev" id="lb-prev" aria-label="Previous">&#8592;</button>
+    <div class="lb-inner">
+      <div class="lb-img-wrap" id="lb-img-wrap"></div>
+      <div class="lb-info">
+        <h2 class="lb-title" id="lb-title"></h2>
+        <div class="lb-detail" id="lb-detail"></div>
+        <p class="lb-desc" id="lb-desc"></p>
+        <div id="lb-action"></div>
+      </div>
+    </div>
+    <button class="lb-nav lb-next" id="lb-next" aria-label="Next">&#8594;</button>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-name">Read Lockhart</span>
+    <ul class="nav-links">
+      <li><a href="#works">Works</a></li>
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="tours.html">Tours</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Painter &nbsp;·&nbsp; Taos &amp; Madrid</p>
+      <h1 class="hero-name">Read<br>Lockhart</h1>
+      <p class="hero-tagline">Read Lockhart’s paintings treat the image as a site of inquiry where philosophy, memory, and perception collide. Trained in classical painting but resistant to stylistic orthodoxy, he dismantles and reconstructs images in a process he describes as “making a mess and painting my way out of it.” The resulting works function as thresholds—inviting viewers into unresolved spaces where meaning must be discovered rather than explained.</p>
+      <div class="hero-cta">
+        <a href="#works" class="btn-primary">View Works</a>
+        <a href="#shop" class="btn-ghost">Prints &amp; Originals</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <!-- TO ADD YOUR FEATURED PAINTING:
+           Replace the div below with:
+           <img src="images/hero.jpg" alt="[Painting title], [year]"> -->
+      <img src="The_Preparation_for_the_Last_Supper.jpg" alt="The Preparation for the Last Supper, 2014" style="object-position: center top;">
+    </div>
+  </div>
+
+  <hr class="full-rule">
+
+  <!-- WORKS -->
+  <section id="works">
+    <p class="section-label">Selected Works</p>
+    <h2 class="section-title fade-up">Paintings &amp; Drawings</h2>
+    <div class="works-tabs">
+      <button class="tab-btn active" data-tab="all">All Works</button>
+      <button class="tab-btn" data-tab="available">Available</button>
+      <button class="tab-btn" data-tab="past">Past Works</button>
+      <button class="tab-btn" data-tab="drawings">Drawings</button>
+    </div>
+    <div class="tab-panel active" id="tab-all"><div class="works-grid" id="grid-all"></div></div>
+    <div class="tab-panel" id="tab-available"><div class="works-grid" id="grid-available"></div></div>
+    <div class="tab-panel" id="tab-past"><div class="works-grid" id="grid-past"></div></div>
+    <div class="tab-panel" id="tab-drawings"><div class="works-grid" id="grid-drawings"></div></div>
+
+    <div class="archive-reveal" id="archive-reveal">
+      <button class="archive-btn" id="archive-toggle" aria-expanded="false">
+        <span class="archive-btn-text">&#8595;&nbsp; Extended Archive</span>
+      </button>
+      <div class="archive-panel" id="archive-panel">
+        <p class="archive-note">A fuller record of the work — portraits, studies, and additional paintings spanning two decades.</p>
+        <div class="works-grid" id="grid-archive"></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="full-rule">
+
+  <!-- SHOP -->
+  <div id="shop">
+    <div class="shop-inner">
+      <p class="section-label">Available Works</p>
+      <h2 class="section-title fade-up">Prints &amp; Originals</h2>
+      <p class="shop-intro">Original works are available by inquiry. Fine art giclée prints are available in multiple sizes, framed or unframed, through a trusted fine art print studio.</p>
+      <div class="shop-grid" id="shop-grid"></div>
+    </div>
+  </div>
+
+  <hr class="full-rule">
+
+  <!-- ABOUT -->
+  <div id="about">
+    <div class="about-img-wrap">
+      <!-- TO ADD STUDIO/PORTRAIT PHOTO:
+           Replace the div below with:
+           <img src="images/studio.jpg" alt="Read Lockhart in studio"> -->
+      <img src="Photo_by_Kristel_Elizabeth_Parada_Saavedra.jpg" alt="Read Lockhart in studio">
+    </div>
+    <div class="about-text">
+      <p class="section-label">About the Artist</p>
+      <h2>Read<br>Lockhart</h2>
+      <p class="about-statement">
+        Painting, for me, is less a vehicle for self-expression than a field of inquiry — a place where image, memory, and thought collide. I’m not looking for resolution so much as resonance: the kind that unsettles perception and lingers in the mind.
+      </p>
+      <div class="about-body">
+        <p>Each work begins with an idea — sometimes from philosophy or literature, sometimes from the strange business of daily life — and slowly becomes a problem that the painting itself must solve.</p>
+        <p>I resist the pressure toward stylistic consistency. The idea leads, and the medium follows. Some paintings barely resemble others I’ve made, and I take that as a good sign. Oil paint and drawing remain my primary tools, but erasure, revision, and even destruction are part of the process. I cannibalize ideas. I paint over things. Lately I’ve come to think of painting as making a mess and trying to paint my way out of it.</p>
+        <p>My studio is less a place of control than a negotiation with chaos. I construct and dismantle in equal measure, searching for something that feels inevitable rather than merely decorative. I’m interested in the tension between building space and collapsing it — sculpting form while simultaneously flattening the picture plane.</p>
+        <p>At its best, a painting becomes a threshold — a place where thought becomes image and the familiar becomes strange again. I don’t try to guide the viewer toward a fixed meaning. I offer a ledge. The work is a conversation — but only if someone’s willing to jump…</p>
+      </div>
+
+      <div class="cv-block">
+        <p class="cv-heading">Education</p>
+        <div class="cv-row"><span class="cv-year">2014</span><span class="cv-detail"><strong>MFA</strong> — Pennsylvania Academy of the Fine Arts, Philadelphia</span></div>
+        <div class="cv-row"><span class="cv-year">2006–08</span><span class="cv-detail"><strong>Art Students League of New York</strong> / <strong>Met Museum Copyist Program</strong></span></div>
+        <div class="cv-row"><span class="cv-year">2002–03</span><span class="cv-detail"><strong>Florence Academy of Art</strong>, Florence, Italy <em>(classical atelier)</em></span></div>
+        <div class="cv-row"><span class="cv-year">2000</span><span class="cv-detail"><strong>BA</strong>, St. John's College, Santa Fe, NM <em>(Great Books curriculum)</em></span></div>
+      </div>
+
+      <div class="cv-block">
+        <p class="cv-heading">Selected Exhibitions</p>
+        <div class="cv-row"><span class="cv-year">2024</span><span class="cv-detail">The Ruffed Grouse Gallery, Narrowsburg, NY — <em>Psycho-Sexual Series</em> (Solo)</span></div>
+        <div class="cv-row"><span class="cv-year">2017–25</span><span class="cv-detail">Read Lockhart Gallery, Taos, NM — multiple solo exhibitions</span></div>
+        <div class="cv-row"><span class="cv-year">2015</span><span class="cv-detail">Shepherd University Gallery, Shepherdstown, WV — <em>Recent Paintings</em> (Solo)</span></div>
+        <div class="cv-row"><span class="cv-year">2014</span><span class="cv-detail">PAFA Museum, Philadelphia — Faculty Choice "One Year Out" Exhibition</span></div>
+      </div>
+
+      <div class="cv-block">
+        <p class="cv-heading">Awards &amp; Collections</p>
+        <div class="cv-row"><span class="cv-year">2014</span><span class="cv-detail">Caldwell Purchase Prize — PAFA Museum <em>(permanent collection)</em></span></div>
+        <div class="cv-row"><span class="cv-year">2013</span><span class="cv-detail">Faculty Choice Award — PAFA</span></div>
+        <div class="cv-row"><span class="cv-year">2008</span><span class="cv-detail">Alma Schapiro Travel Grant — Art Students League of New York</span></div>
+      </div>
+
+      <div class="cv-block">
+        <p class="cv-heading">Teaching</p>
+        <div class="cv-row"><span class="cv-year">2017–25</span><span class="cv-detail">Assistant to Larry Bell, Studio Annex — Taos, NM</span></div>
+        <div class="cv-row"><span class="cv-year">2018</span><span class="cv-detail">University of New Mexico — Drawing, Watercolor, Oil Painting</span></div>
+        <div class="cv-row"><span class="cv-year">2015–17</span><span class="cv-detail">Drexel University / Moore College of Art &amp; Design — Drawing</span></div>
+      </div>
+
+      <a href="Art_Career_CV__2025.pdf" class="cv-dl" download>Download Full CV (PDF) ↓</a>
+    </div>
+  </div>
+
+  <hr class="full-rule">
+
+  <!-- CONTACT -->
+  <div id="contact">
+    <div class="contact-inner">
+      <div class="contact-text fade-up">
+        <p class="section-label">Get in Touch</p>
+        <h2>Let's begin<br>a conversation.</h2>
+        <p>For inquiries about original works, prints, commissions, or exhibitions — I'd love to hear from you.</p>
+        <div class="contact-details">
+          <div>
+            <p class="c-label">Email</p>
+            <p class="c-value"><a href="/cdn-cgi/l/email-protection#f183949095df9d9e929a99908385b1969c90989ddf929e9c"><span class="__cf_email__" data-cfemail="acdec9cdc882c0c3cfc7c4cdded8eccbc1cdc5c082cfc3c1">[email&#160;protected]</span></a></p>
+          </div>
+          <div>
+            <p class="c-label">Studio</p>
+            <p class="c-value">Taos, New Mexico &amp; Madrid, Spain</p>
+          </div>
+          <div>
+            <p class="c-label">Instagram</p>
+            <p class="c-value"><a href="https://www.instagram.com/readpaints/" target="_blank" rel="noopener">@readpaints</a></p>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form fade-up" id="contact-form">
+        <div class="form-group">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-input" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subject</label>
+          <input type="text" class="form-input" placeholder="Original inquiry, print order, commission…">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" placeholder="Tell me what you're looking for…" required></textarea>
+        </div>
+        <button type="submit" class="btn-send">Send Message</button>
+        <p id="form-confirm" style="display:none; font-family:var(--font-display); font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--stone); margin-top:4px;">Thank you — I'll be in touch soon.</p>
+      </form>
+    </div>
+  </div>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // ─────────────────────────────────────────────
+    // FRONT PAGE WORKS  (13 selected works)
+    // ─────────────────────────────────────────────
+    var worksData = [
+      { id:1,  title:"The Preparation for the Last Supper", medium:"Oil on linen", size:"82 \u00d7 144 in", year:"2014", category:"past", status:"sold", img:"The_Preparation_for_the_Last_Supper.jpg", bg:"linear-gradient(165deg,#5c5248 0%,#32281e 100%)", desc:"MFA thesis work. Pennsylvania Academy of the Fine Arts, 2014." },
+      { id:2,  title:"The Allegory of the Cave", medium:"Oil on linen", size:"84 \u00d7 122 in", year:"2012", category:"past", status:"sold", img:"The_Allegory_of_the_Cave.jpg", bg:"linear-gradient(165deg,#7a6a50 0%,#4a3e2e 100%)", desc:"" },
+      { id:3,  title:"The Narrator", medium:"Oil on linen", size:"80 \u00d7 110 in", year:"2015", category:"past", status:"sold", img:"The_Narrator.jpg", bg:"linear-gradient(165deg,#3a3020 0%,#201c10 100%)", desc:"" },
+      { id:4,  title:"The Theater of Michael Fried", medium:"Oil on canvas", size:"54 \u00d7 66 in", year:"2013", category:"past", status:"sold", img:"The_Theater_of_Michael_Fried.jpg", bg:"linear-gradient(165deg,#2a2018 0%,#5c3020 100%)", desc:"" },
+      { id:5,  title:"The Death of the Artist", medium:"Oil on linen", size:"80 \u00d7 132 in", year:"2012", category:"available", status:"available", img:"The_Death_of_the_Artist.jpg", bg:"linear-gradient(165deg,#3a3530 0%,#232018 100%)", desc:"" },
+      { id:6,  title:"The Descent", medium:"Oil on linen", size:"80 \u00d7 116 in", year:"2015", category:"available", status:"available", img:"The_Descent.jpg", bg:"linear-gradient(165deg,#5a5248 0%,#2e2a24 100%)", desc:"" },
+      { id:7,  title:"Big Night", medium:"Oil on canvas", size:"40 \u00d7 60 in", year:"2016", category:"past", status:"sold", img:"Big_Night.jpg", bg:"linear-gradient(165deg,#3a3020 0%,#201808 100%)", desc:"" },
+      { id:8,  title:"The Start", medium:"Oil on panel", size:"48 \u00d7 60 in", year:"2012", category:"past", status:"sold", img:"The_Start.jpg", bg:"linear-gradient(165deg,#3a3838 0%,#1e1c1a 100%)", desc:"" },
+      { id:9,  title:"These Are the Parties I Remember", medium:"Oil on linen", size:"36 \u00d7 36 in", year:"2025", category:"available", status:"available", img:"These_are_the_Parties_I_remember.jpg", bg:"linear-gradient(165deg,#8a7040 0%,#5a4820 100%)", desc:"" },
+      { id:10, title:"The Cave of Forgotten Dimensions", medium:"Oil on linen", size:"36 \u00d7 36 in", year:"2025", category:"available", status:"available", img:"The_Cave_of_Forgotten_Dimensions.jpg", bg:"linear-gradient(165deg,#3a2818 0%,#5a3820 100%)", desc:"" },
+      { id:11, title:"The World He Makes for Himself", medium:"Oil on linen", size:"36 \u00d7 36 in", year:"2025", category:"available", status:"available", img:"The_World_He_Makes_for_Himself.jpg", bg:"linear-gradient(165deg,#6a7840 0%,#3a4820 100%)", desc:"" },
+      { id:12, title:"After Larry, His Three Planes", medium:"Oil on linen", size:"30 \u00d7 52 in", year:"2019", category:"available", status:"available", img:"After_Larry_His_Three_Planes.jpg", bg:"linear-gradient(165deg,#208060 0%,#104830 100%)", desc:"For Larry Bell. On the three spatial planes of glass: surface, thickness, depth." },
+      { id:13, title:"The Prize", medium:"Oil on linen", size:"60 \u00d7 72 in", year:"2011\u20132025", category:"available", status:"available", img:"The_Prize.jpg", bg:"linear-gradient(165deg,#c8a870 0%,#8a6a3a 100%)", desc:"" },
+    ];
+
+    // ─────────────────────────────────────────────
+    // ARCHIVE WORKS
+    // ─────────────────────────────────────────────
+    var archiveData = [
+      { id:101, title:"Cleaning Up After the Last Supper", medium:"Oil on linen", size:"72 \u00d7 96 in", year:"2014", status:"sold", img:"Cleaning_Up_After_The_Last_Supper.jpg", bg:"linear-gradient(165deg,#4a4238 0%,#28221a 100%)", desc:"Permanent collection, Pennsylvania Academy of the Fine Arts, Philadelphia." },
+      { id:102, title:"Flay", medium:"Oil on canvas", size:"52 \u00d7 70 in", year:"2014", status:"sold", img:"Flay.jpg", bg:"linear-gradient(165deg,#8a5030 0%,#5a2810 100%)", desc:"" },
+      { id:103, title:"The Forms of Fracture", medium:"Oil on panel", size:"30 \u00d7 42 in", year:"2013", status:"sold", img:"The_Forms_of_Fracture.jpg", bg:"linear-gradient(165deg,#c8b870 0%,#8a8030 100%)", desc:"" },
+      { id:104, title:"Empty", medium:"Oil on canvas", size:"42 \u00d7 48 in", year:"2014", status:"sold", img:"Empty.jpg", bg:"linear-gradient(165deg,#484038 0%,#282018 100%)", desc:"" },
+      { id:105, title:"The Wedding", medium:"Oil on canvas", size:"74 \u00d7 86 in", year:"2015", status:"sold", img:"The_Wedding.jpg", bg:"linear-gradient(165deg,#3c3830 0%,#24201a 100%)", desc:"" },
+      { id:106, title:"The Soloist", medium:"Oil on linen", size:"48 \u00d7 72 in", year:"2015", status:"available", img:"The_Soloist.jpg", bg:"linear-gradient(165deg,#3a3020 0%,#604020 100%)", desc:"" },
+      { id:107, title:"The Writer", medium:"Oil on linen", size:"36 \u00d7 22 in", year:"2008", status:"available", img:"The_Writer.jpg", bg:"linear-gradient(165deg,#5a5040 0%,#383020 100%)", desc:"" },
+      { id:108, title:"The Poet", medium:"Oil on linen", size:"28 \u00d7 18 in", year:"2011", status:"available", img:"The_Poet.jpg", bg:"linear-gradient(165deg,#5a5040 0%,#383020 100%)", desc:"" },
+      { id:109, title:"Remembrance of Things Past", medium:"Oil on panel", size:"30 \u00d7 24 in", year:"2010", status:"available", img:"Remembrance_of_Times_Past.jpg", bg:"linear-gradient(165deg,#5a5848 0%,#383828 100%)", desc:"" },
+      { id:110, title:"The Approaching Storm", medium:"Oil on panel", size:"20 \u00d7 30 in", year:"2013", status:"available", img:"The_Approaching_Storm.jpg", bg:"linear-gradient(165deg,#5a6878 0%,#303848 100%)", desc:"" },
+      { id:111, title:"Looking at Valdez", medium:"Oil on panel", size:"16 \u00d7 20 in", year:"2011", status:"available", img:"Looking_at_Valdez.jpg", bg:"linear-gradient(165deg,#486030 0%,#284010 100%)", desc:"" },
+      { id:112, title:"The John Dunn Bridge", medium:"Oil on panel", size:"39 \u00d7 39 in", year:"2013", status:"sold", img:"The_John_Dunn_Bridge.jpg", bg:"linear-gradient(165deg,#485848 0%,#283828 100%)", desc:"" },
+      { id:113, title:"The Maskmaker", medium:"Oil on linen", size:"24 \u00d7 36 in", year:"2011", status:"sold", img:"The_Maskmaker.jpg", bg:"linear-gradient(165deg,#3a3028 0%,#201810 100%)", desc:"" },
+      { id:114, title:"The Weight of Art", medium:"Oil on linen", size:"50 \u00d7 50 in", year:"2014", status:"sold", img:"The_Weight_of_Art.jpg", bg:"linear-gradient(165deg,#5a4030 0%,#382818 100%)", desc:"" },
+      { id:115, title:"Plating", medium:"Oil on linen", size:"48 \u00d7 48 in", year:"2014", status:"sold", img:"Plating_Paint.jpg", bg:"linear-gradient(165deg,#4a4838 0%,#282818 100%)", desc:"" },
+      { id:116, title:"Memory of Rome", medium:"Oil on canvas", size:"38 \u00d7 46 in", year:"2014", status:"sold", img:"Memory_of_Rome.jpg", bg:"linear-gradient(165deg,#5a5040 0%,#383020 100%)", desc:"" },
+      { id:117, title:"Seeking Sun", medium:"Oil on canvas", size:"40 \u00d7 30 in", year:"2010", status:"sold", img:"Seeking_Sun.jpg", bg:"linear-gradient(165deg,#c8a830 0%,#986810 100%)", desc:"" },
+      { id:118, title:"Rebirth", medium:"Oil on panel", size:"48 \u00d7 60 in", year:"2011", status:"sold", img:"Rebirth.jpg", bg:"linear-gradient(165deg,#3a4858 0%,#182838 100%)", desc:"" },
+      { id:119, title:"Reflections", medium:"Oil on canvas", size:"28 \u00d7 34 in", year:"2014", status:"sold", img:"Reflections.jpg", bg:"linear-gradient(165deg,#485870 0%,#283848 100%)", desc:"" },
+      { id:120, title:"Big Night (Empty Table)", medium:"Oil on canvas", size:"40 \u00d7 60 in", year:"2016", status:"sold", img:"Empty.jpg", bg:"linear-gradient(165deg,#303838 0%,#181818 100%)", desc:"" },
+      { id:121, title:"The First Date", medium:"Oil on linen", size:"28 \u00d7 20 in", year:"2017", status:"sold", img:"The_First_Date.jpg", bg:"linear-gradient(165deg,#5a5040 0%,#383020 100%)", desc:"" },
+      { id:122, title:"Beautiful Julia", medium:"Oil on illustration board", size:"24 \u00d7 36 in", year:"2008", status:"sold", img:"Beautiful_Julia.jpg", bg:"linear-gradient(165deg,#5a4838 0%,#382818 100%)", desc:"" },
+      { id:123, title:"She Found Something", medium:"Oil on canvas", size:"14 \u00d7 10 in", year:"2009", status:"sold", img:"She_Found_Something.jpg", bg:"linear-gradient(165deg,#5a4038 0%,#382018 100%)", desc:"" },
+      { id:124, title:"Anonymous", medium:"Oil on panel", size:"32 \u00d7 26 in", year:"2013", status:"sold", img:"Anonymous.jpg", bg:"linear-gradient(165deg,#5a4840 0%,#382820 100%)", desc:"" },
+      { id:125, title:"Amanda Lee Anderson", medium:"Oil on panel", size:"24 \u00d7 18 in", year:"2008", status:"sold", img:"Amanda_Lee_Anderson.jpg", bg:"linear-gradient(165deg,#5a5040 0%,#383020 100%)", desc:"" },
+      { id:126, title:"Keeping", medium:"Oil on illustration board", size:"12 \u00d7 16 in", year:"2011", status:"available", img:"Keeping.jpg", bg:"linear-gradient(165deg,#686030 0%,#484010 100%)", desc:"" },
+      { id:127, title:"Plating 1", medium:"Oil on illustration board", size:"20 \u00d7 24 in", year:"2013", status:"available", img:"Plating_1.jpg", bg:"linear-gradient(165deg,#4a4838 0%,#282818 100%)", desc:"" },
+      { id:128, title:"Mr. Garcia's Sheep", medium:"Pencil on illustration board", size:"48 \u00d7 36 in", year:"2012", status:"sold", img:"Mr_Garcias_Sheep.jpg", bg:"linear-gradient(165deg,#d8d4ce 0%,#aeaaa4 100%)", desc:"" },
+      { id:129, title:"The Horse Trophy", medium:"Oil on metal", size:"30 \u00d7 46 \u00d7 20 in", year:"2018", status:"sold", img:"The_Horse-Trophy.jpg", bg:"linear-gradient(165deg,#8a7860 0%,#5a4830 100%)", desc:"Oil painted directly on a found metal trough. References Roman sarcophagus relief." },
+      { id:130, title:"Self Portrait in Profile", medium:"Pencil on paper", size:"40 \u00d7 28 in", year:"2007", status:"sold", img:"Self_Portrait_in_Profile.jpg", bg:"linear-gradient(165deg,#d8d4ce 0%,#aeaaa4 100%)", desc:"" },
+    
+      { id:131, title:"Plating 3", medium:"Oil on illustration board", size:"14 x 16 in", year:"2013", status:"available", img:"Plating_3.jpg", bg:"linear-gradient(165deg,#4a4838 0%,#282818 100%)", desc:"" },
+      { id:132, title:"Attempting Not to Change", medium:"Oil on panel", size:"20 x 30 in", year:"2012", status:"available", img:"Attempting_not_to_Change.jpg", bg:"linear-gradient(165deg,#5a5040 0%,#383020 100%)", desc:"" },
+      { id:133, title:"Plating 2", medium:"Oil on panel", size:"12 x 18 in", year:"2013", status:"available", img:"Plating_2.jpg", bg:"linear-gradient(165deg,#4a4838 0%,#282818 100%)", desc:"" },
+      { id:134, title:"Building Fences", medium:"Pencil on illustration board", size:"30 x 40 in", year:"2010", status:"available", img:"Building_Fences.jpg", bg:"linear-gradient(165deg,#d8d4ce 0%,#aeaaa4 100%)", desc:"" },
+      { id:135, title:"Mending Fences", medium:"Pencil on illustration board", size:"40 x 60 in", year:"2011", status:"available", img:"Mending_Fences.jpg", bg:"linear-gradient(165deg,#d8d4ce 0%,#aeaaa4 100%)", desc:"" },
+      { id:136, title:"Beginnings", medium:"Oil on linen", size:"16 x 12 in", year:"2004", status:"sold", img:"Beginnings.jpg", bg:"linear-gradient(165deg,#5a5040 0%,#383020 100%)", desc:"" },
+      { id:137, title:"Mrs. Trier", medium:"Oil on linen", size:"18 x 24 in", year:"2006", status:"sold", img:"Mrs_Trier.jpg", bg:"linear-gradient(165deg,#5a5040 0%,#383020 100%)", desc:"" },
+      { id:138, title:"Balance of Light", medium:"Oil on panel", size:"30 x 60 in", year:"2011", status:"sold", img:"Balance_of_Light.jpg", bg:"linear-gradient(165deg,#c8b870 0%,#988830 100%)", desc:"" },
+      { id:139, title:"Balance", medium:"Oil on panel", size:"16 x 50 in", year:"2011", status:"sold", img:"Balance.jpg", bg:"linear-gradient(165deg,#c8b870 0%,#988830 100%)", desc:"" },
+      { id:140, title:"Brothers", medium:"Oil on panel", size:"20 x 32 in", year:"2010", status:"sold", img:"Brothers.jpg", bg:"linear-gradient(165deg,#5a5040 0%,#383020 100%)", desc:"" },
+      { id:141, title:"Grey Day", medium:"Oil on panel", size:"20 x 60 in", year:"2008", status:"sold", img:"Grey_Day.jpg", bg:"linear-gradient(165deg,#808888 0%,#505858 100%)", desc:"" },
+      { id:142, title:"Julie", medium:"Oil on panel", size:"10 x 7 in", year:"2008", status:"sold", img:"Julie.jpg", bg:"linear-gradient(165deg,#5a5040 0%,#383020 100%)", desc:"" },
+      { id:143, title:"Regrowth", medium:"Oil on panel", size:"36 x 48 in", year:"2011", status:"sold", img:"Regrowth.jpg", bg:"linear-gradient(165deg,#486030 0%,#284010 100%)", desc:"" },
+      { id:144, title:"Returning Home", medium:"Oil on panel", size:"36 x 48 in", year:"2015", status:"sold", img:"Returning_Home.jpg", bg:"linear-gradient(165deg,#5a5040 0%,#383020 100%)", desc:"" },
+      { id:145, title:"Setting Over the Burn", medium:"Oil on panel", size:"36 x 48 in", year:"2011", status:"sold", img:"Setting_Over_the_Burn.jpg", bg:"linear-gradient(165deg,#c8a830 0%,#805808 100%)", desc:"" },
+      { id:146, title:"Paris Apartment", medium:"Pencil on paper", size:"18 x 12 in", year:"2009", status:"sold", img:"Paris_Apartment.jpg", bg:"linear-gradient(165deg,#d8d4ce 0%,#aeaaa4 100%)", desc:"" },
+      { id:147, title:"The Singer", medium:"Pencil on paper", size:"24 x 18 in", year:"2008", status:"sold", img:"The_Singer.jpg", bg:"linear-gradient(165deg,#d8d4ce 0%,#aeaaa4 100%)", desc:"" },
+      { id:148, title:"Engulf", medium:"Oil on panel", size:"36 x 48 in", year:"2011", status:"sold", img:"Engulf.jpg", bg:"linear-gradient(165deg,#3a3020 0%,#201008 100%)", desc:"" },
+    ];
+
+    var shopData = [
+      { type:"Original Painting", title:"The Death of the Artist", desc:"Oil on linen, 80 \u00d7 132 in, 2012.", price:"Inquire for price", img:"The_Death_of_the_Artist.jpg", bg:"linear-gradient(135deg,#3a3530 0%,#232018 100%)", action:"inquire" },
+      { type:"Original Painting", title:"The Descent", desc:"Oil on linen, 80 \u00d7 116 in, 2015.", price:"Inquire for price", img:"The_Descent.jpg", bg:"linear-gradient(135deg,#5a5248 0%,#2e2a24 100%)", action:"inquire" },
+      { type:"Original Painting", title:"The Soloist", desc:"Oil on linen, 48 \u00d7 72 in, 2015.", price:"Inquire for price", img:"The_Soloist.jpg", bg:"linear-gradient(135deg,#3a3020 0%,#604020 100%)", action:"inquire" },
+      { type:"Original Painting", title:"After Larry, His Three Planes", desc:"Oil on linen, 30 \u00d7 52 in, 2019.", price:"Inquire for price", img:"After_Larry_His_Three_Planes.jpg", bg:"linear-gradient(135deg,#208060 0%,#104830 100%)", action:"inquire" },
+      { type:"Fine Art Print", title:"Available as Gicl\u00e9e Print", desc:"Archival gicl\u00e9e on cotton rag. Multiple sizes, framed or unframed.", price:"From $85", img:"The_Allegory_of_the_Cave.jpg", bg:"linear-gradient(135deg,#7a6a50 0%,#4a3e2e 100%)", action:"print" },
+      { type:"Commission", title:"Original Commission", desc:"Studio commission \u2014 discuss scale, medium, and subject directly.", price:"Inquire for price", img:"The_Preparation_for_the_Last_Supper.jpg", bg:"linear-gradient(135deg,#5c5248 0%,#32281e 100%)", action:"inquire" },
+    ];
+
+    function makeCard(work, isArchive) {
+      var el = document.createElement('div');
+      el.className = 'work-item fade-up';
+      el.dataset.id = work.id;
+      el.dataset.source = isArchive ? 'archive' : 'main';
+      var thumbHTML = work.img
+        ? '<img class="work-thumb" src="' + work.img + '" alt="' + work.title + '" loading="lazy">'
+        : '<div class="work-thumb-ph" style="background:' + work.bg + ';"></div>';
+      var badgeCls = work.status === 'available' ? 'badge-avail' : 'badge-sold';
+      var badgeTxt = work.status === 'available' ? 'Available' : 'Sold';
+      el.innerHTML = thumbHTML +
+        '<div class="work-overlay">' +
+          '<span class="work-badge ' + badgeCls + '">' + badgeTxt + '</span>' +
+          '<div class="work-info">' +
+            '<p class="work-title">' + work.title + '</p>' +
+            '<p class="work-meta">' + work.medium + (work.size ? ' \u00b7 ' + work.size : '') + ' \u00b7 ' + work.year + '</p>' +
+          '</div>' +
+        '</div>';
+      el.addEventListener('click', function() {
+        openLB(work.id, isArchive ? archiveData : worksData);
+      });
+      return el;
+    }
+
+    function populateWorks() {
+      var grids = {
+        all:       document.getElementById('grid-all'),
+        available: document.getElementById('grid-available'),
+        past:      document.getElementById('grid-past'),
+        drawings:  document.getElementById('grid-drawings')
+      };
+      worksData.forEach(function(w) {
+        grids.all.appendChild(makeCard(w, false));
+        if (w.category === 'available') grids.available.appendChild(makeCard(w, false));
+        if (w.category === 'past')      grids.past.appendChild(makeCard(w, false));
+        if (w.category === 'drawings')  grids.drawings.appendChild(makeCard(w, false));
+      });
+      var archiveGrid = document.getElementById('grid-archive');
+      archiveData.forEach(function(w) {
+        archiveGrid.appendChild(makeCard(w, true));
+      });
+    }
+
+    function populateShop() {
+      var grid = document.getElementById('shop-grid');
+      shopData.forEach(function(item) {
+        var imgHTML = item.img
+          ? '<img class="shop-card-img" src="' + item.img + '" alt="' + item.title + '" loading="lazy">'
+          : '<div class="shop-card-img-ph" style="background:' + item.bg + ';"></div>';
+        var btn = item.action === 'print'
+          ? '<a href="#contact" class="btn-inquire-dark">Order Print</a>'
+          : '<a href="#contact" class="btn-inquire-dark">Inquire</a>';
+        var card = document.createElement('div');
+        card.className = 'shop-card fade-up';
+        card.innerHTML = imgHTML +
+          '<div class="shop-card-body">' +
+            '<p class="shop-card-type">' + item.type + '</p>' +
+            '<h3 class="shop-card-title">' + item.title + '</h3>' +
+            '<p class="shop-card-desc">' + item.desc + '</p>' +
+            '<p class="shop-card-price">' + item.price + '</p>' +
+            btn +
+          '</div>';
+        grid.appendChild(card);
+      });
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        observeFades();
+      });
+    });
+
+    var archiveOpen = false;
+    document.getElementById('archive-toggle').addEventListener('click', function() {
+      archiveOpen = !archiveOpen;
+      var panel = document.getElementById('archive-panel');
+      var btn = document.getElementById('archive-toggle');
+      if (archiveOpen) {
+        panel.classList.add('open');
+        btn.querySelector('.archive-btn-text').innerHTML = '&#8593;&nbsp; Close Archive';
+        btn.setAttribute('aria-expanded', 'true');
+        observeFades();
+      } else {
+        panel.classList.remove('open');
+        btn.querySelector('.archive-btn-text').innerHTML = '&#8595;&nbsp; Extended Archive';
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    var currentData = worksData;
+    var lbIdx = 0;
+    function openLB(id, dataSet) {
+      currentData = dataSet;
+      lbIdx = dataSet.findIndex(function(w) { return w.id === id; });
+      renderLB();
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function renderLB() {
+      var w = currentData[lbIdx];
+      var imgWrap = document.getElementById('lb-img-wrap');
+      imgWrap.innerHTML = w.img
+        ? '<img src="' + w.img + '" alt="' + w.title + '">'
+        : '<div class="lb-img-ph" style="background:' + w.bg + ';"></div>';
+      document.getElementById('lb-title').textContent = w.title;
+      document.getElementById('lb-detail').innerHTML = w.medium + (w.size ? '<br>' + w.size : '') + '<br>' + w.year;
+      document.getElementById('lb-desc').textContent = w.desc || '';
+      var actionEl = document.getElementById('lb-action');
+      if (w.status === 'available') {
+        actionEl.innerHTML = '<a href="#contact" class="btn-inquire" onclick="closeLB()">Inquire About This Work</a>';
+      } else {
+        actionEl.innerHTML = '<span style="font-family:var(--font-display);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--slate);">Sold</span>';
+      }
+    }
+    function closeLB() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('lb-close').addEventListener('click', closeLB);
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === document.getElementById('lightbox')) closeLB();
+    });
+    document.getElementById('lb-prev').addEventListener('click', function(e) {
+      e.stopPropagation();
+      lbIdx = (lbIdx - 1 + currentData.length) % currentData.length;
+      renderLB();
+    });
+    document.getElementById('lb-next').addEventListener('click', function(e) {
+      e.stopPropagation();
+      lbIdx = (lbIdx + 1) % currentData.length;
+      renderLB();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (!document.getElementById('lightbox').classList.contains('open')) return;
+      if (e.key === 'Escape') closeLB();
+      if (e.key === 'ArrowLeft')  { lbIdx = (lbIdx - 1 + currentData.length) % currentData.length; renderLB(); }
+      if (e.key === 'ArrowRight') { lbIdx = (lbIdx + 1) % currentData.length; renderLB(); }
+    });
+
+    function observeFades() {
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.fade-up:not(.visible)').forEach(function(el) { obs.observe(el); });
+    }
+
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('form-confirm').style.display = 'block';
+      e.target.reset();
+    });
+
+    populateWorks();
+    populateShop();
+    observeFades();
+  </script>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-name">Read Lockhart</span>
+    <span class="footer-copy">&copy; 2025 Read Lockhart. All rights reserved.</span>
+  </footer>
+
+</body>
+</html>
