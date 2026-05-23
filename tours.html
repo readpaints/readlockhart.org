@@ -71,60 +71,58 @@
 
     /* MAIN CONTENT */
     .content { padding-top: var(--nav-h); }
-    .section { padding: 60px 48px; max-width: var(--max-w); margin: 0 auto; }
+    .section { padding: 36px 48px; max-width: var(--max-w); margin: 0 auto; }
     
     .nav-logo { height: 38px; width: auto; display: block; }
 
     .hero-logo {
-      display: block; width: 420px; max-width: 85%;
-      height: auto; margin: 0 auto 40px;
+      display: block; width: 680px; max-width: 92%;
+      height: auto; margin: 0 auto 24px;
     }
     /* HERO SECTION */
     .hero-tours {
       text-align: center;
-      padding-top: 120px;
-      padding-bottom: 80px;
+      padding-top: 60px;
+      padding-bottom: 36px;
     }
     .hero-tours h1 {
       font-family: var(--font-display); font-weight: 200;
-      font-size: clamp(26px, 3.5vw, 40px);
+      font-size: clamp(28px, 4vw, 48px);
       letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--charcoal); margin-bottom: 20px;
+      color: var(--charcoal); margin-bottom: 14px;
     }
     .hero-tours .subtitle {
       font-family: var(--font-body); font-style: italic; font-weight: 300;
       font-size: clamp(20px, 2.2vw, 26px); color: var(--slate); line-height: 1.6;
-      max-width: 620px; margin: 0 auto 30px;
+      max-width: 620px; margin: 0 auto 20px;
     }
     .divider-line {
-      width: 60px; height: 1px; background: var(--stone); margin: 30px auto;
+      width: 60px; height: 1px; background: var(--stone); margin: 20px auto;
     }
 
     /* ABOUT SECTION */
     .about-box {
-      background: var(--linen); padding: 40px;
-      border: 1px solid var(--stone); margin-bottom: 60px;
+      background: var(--linen); padding: 28px 32px;
+      border: 1px solid var(--stone); margin-bottom: 32px;
       max-width: 700px; margin-left: auto; margin-right: auto;
     }
     .about-box p {
-      margin-bottom: 16px; color: var(--charcoal); line-height: 1.8;
+      margin-bottom: 12px; color: var(--charcoal); line-height: 1.8;
     }
     .about-box p:last-child { margin-bottom: 0; }
 
     /* DIFFERENCES SECTION */
     .differences {
-      max-width: 700px; margin: 0 auto 60px;
+      max-width: 700px; margin: 0 auto 32px;
     }
     .differences h2 {
       font-family: var(--font-display); font-weight: 200;
       font-size: clamp(36px, 4vw, 48px); text-align: center;
-      color: var(--ink); margin-bottom: 40px;
+      color: var(--ink); margin-bottom: 24px;
     }
-    .differences ul {
-      list-style: none;
-    }
+    .differences ul { list-style: none; }
     .differences li {
-      margin-bottom: 18px; font-size: 18px;
+      margin-bottom: 12px; font-size: 18px;
       line-height: 1.6; margin-left: 20px;
     }
     .differences li::before {
@@ -135,11 +133,9 @@
     }
 
     /* TOURS SECTION */
-    .tours-container {
-      max-width: 900px; margin: 0 auto;
-    }
+    .tours-container { max-width: 900px; margin: 0 auto; }
     .tour-card {
-      border: 1px solid var(--stone); padding: 32px; margin-bottom: 24px;
+      border: 1px solid var(--stone); padding: 28px; margin-bottom: 16px;
       background: white; cursor: pointer; transition: all 0.3s;
     }
     .tour-card:hover {
@@ -176,7 +172,7 @@
 
     /* PRICING SECTION */
     .pricing-container { max-width: 900px; margin: 0 auto; }
-    .pricing-intro { text-align: center; margin-bottom: 60px; }
+    .pricing-intro { text-align: center; margin-bottom: 32px; }
     .pricing-intro h2 {
       font-family: var(--font-display); font-weight: 200;
       font-size: 48px; color: var(--ink); margin-bottom: 12px;
@@ -356,7 +352,7 @@
 
     @media (max-width: 768px) {
       nav { padding: 0 24px; }
-      .section { padding: 40px 20px !important; }
+      .section { padding: 24px 20px !important; }
       .form-grid { grid-template-columns: 1fr; }
 
       .menu-toggle { display: block; }
@@ -375,9 +371,9 @@
       .nav-links.open { transform: translateX(0); }
       .nav-links a { font-size: 13px; }
 
-      .hero-tours { padding-top: 60px !important; padding-bottom: 40px !important; }
-      .hero-tours h1 { font-size: 36px; }
-      .hero-tours .subtitle { font-size: 17px; }
+      .hero-tours { padding-top: 36px !important; padding-bottom: 24px !important; }
+      .hero-tours h1 { font-size: 22px; }
+      .hero-tours .subtitle { font-size: 18px; }
 
       .differences h2 { font-size: 30px; }
       .differences li { font-size: 16px; margin-left: 8px; }
@@ -387,29 +383,27 @@
       .testimonials-title,
       .form-section h2 { font-size: 32px !important; }
 
-      .tour-card { padding: 24px 20px; }
+      .tour-card { padding: 20px 16px; }
       .tour-title { font-size: 19px; }
 
-      .about-box { padding: 28px 20px; }
-      .important-info { padding: 24px 20px; }
+      .about-box { padding: 20px 16px; }
+      .important-info { padding: 20px 16px; }
 
-      .form-section { padding: 28px 20px !important; }
-      .testimonial-form { padding: 28px 20px; }
+      .form-section { padding: 24px 16px !important; }
+      .testimonial-form { padding: 24px 16px; }
 
       .interests-grid { grid-template-columns: 1fr 1fr; }
-
-      .info-box { padding: 24px 20px; }
-
+      .info-box { padding: 20px 16px; }
       .submit-btn { font-size: 12px; padding: 14px; }
     }
 
     @media (max-width: 420px) {
-      .section { padding: 32px 16px !important; }
-      nav { padding: 0 16px; }
-      .hero-tours h1 { font-size: 30px; }
-      .tour-card { padding: 20px 16px; }
-      .form-section { padding: 24px 16px !important; }
-      .testimonial-form { padding: 24px 16px; }
+      .section { padding: 20px 14px !important; }
+      nav { padding: 0 14px; }
+      .hero-tours h1 { font-size: 18px; }
+      .tour-card { padding: 16px 14px; }
+      .form-section { padding: 20px 14px !important; }
+      .testimonial-form { padding: 20px 14px; }
       .interests-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
       .interest-btn { padding: 8px 10px; font-size: 11px; }
     }
