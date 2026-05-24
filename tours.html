@@ -84,6 +84,22 @@
       text-align: center;
       padding-top: 28px;
       padding-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+      background-image: url('The_Allegory_of_the_Cave.jpg');
+      background-size: cover;
+      background-position: center 30%;
+    }
+    .hero-tours::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(245, 241, 235, 0.88);
+      z-index: 0;
+    }
+    .hero-tours > * {
+      position: relative;
+      z-index: 1;
     }
     .hero-tours h1 {
       font-family: var(--font-display); font-weight: 200;
