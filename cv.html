@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Curriculum Vitae — Read Lockhart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:      #f5f1eb;
+      --linen:      #ede8df;
+      --stone:      #c8c0b4;
+      --slate:      #7a7670;
+      --charcoal:   #2e2c29;
+      --ink:        #1a1815;
+      --accent:     #8a7f6e;
+      --warm-white: #faf8f4;
+      --font-display: 'Jost', sans-serif;
+      --font-body:    'Cormorant Garamond', serif;
+      --max-w: 1200px;
+      --nav-h: 72px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--warm-white);
+      color: var(--charcoal);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(250,248,244,0.93);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--linen);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; z-index: 100;
+    }
+    .nav-name {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 15px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink);
+    }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--slate); transition: color 0.25s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--accent);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--ink); }
+    .nav-links a.active::after { transform: scaleX(1); }
+
+    .full-rule { border: none; border-top: 1px solid var(--linen); margin: 0; }
+
+    /* PAGE HEADER */
+    .cv-header {
+      padding: calc(var(--nav-h) + 72px) 80px 56px;
+      max-width: var(--max-w); margin: 0 auto;
+    }
+    .section-label {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px;
+    }
+    .cv-header h1 {
+      font-family: var(--font-display); font-weight: 200;
+      font-size: clamp(32px, 4vw, 52px); color: var(--ink);
+      letter-spacing: -0.01em; margin-bottom: 18px; line-height: 1.1;
+    }
+    .cv-tagline {
+      font-family: var(--font-body); font-style: italic; font-size: 19px;
+      color: var(--slate); margin-bottom: 28px;
+    }
+    .cv-contact {
+      font-family: var(--font-display); font-weight: 300; font-size: 12px;
+      letter-spacing: 0.06em; color: var(--slate);
+      display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center;
+    }
+    .cv-contact span:not(:last-child)::after { content: '·'; margin-left: 14px; color: var(--stone); }
+    .cv-dl-top {
+      display: inline-block; margin-top: 32px;
+      font-family: var(--font-display); font-weight: 400; font-size: 11px;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-white);
+      background: var(--ink); padding: 14px 28px; border-radius: 2px;
+      transition: background 0.25s;
+    }
+    .cv-dl-top:hover { background: var(--accent); }
+
+    /* CV BODY */
+    .cv-wrap { max-width: var(--max-w); margin: 0 auto; padding: 56px 80px 120px; }
+    .cv-block { margin-top: 44px; border-top: 1px solid var(--linen); padding-top: 36px; }
+    .cv-block:first-child { margin-top: 0; }
+    .cv-heading { font-family: var(--font-display); font-weight: 300; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+    .cv-row { display: grid; grid-template-columns: 120px 1fr; gap: 16px; margin-bottom: 14px; font-size: 16px; }
+    .cv-year { font-family: var(--font-display); font-weight: 300; font-size: 12px; letter-spacing: 0.06em; color: var(--slate); padding-top: 2px; }
+    .cv-detail { color: var(--charcoal); line-height: 1.65; }
+    .cv-detail strong { font-family: var(--font-display); font-weight: 400; font-size: 14px; font-style: normal; }
+    .cv-detail em { color: var(--slate); font-style: italic; }
+    .cv-detail .cv-note { display: block; color: var(--slate); font-style: italic; font-size: 15px; margin-top: 3px; }
+    .cv-profile {
+      font-size: 19px; color: var(--charcoal); max-width: 780px; line-height: 1.75;
+    }
+    .cv-skills-row { display: grid; grid-template-columns: 200px 1fr; gap: 16px; margin-bottom: 14px; font-size: 16px; }
+    .cv-skills-label { font-family: var(--font-display); font-weight: 400; font-size: 13px; color: var(--ink); }
+    .cv-skills-value { color: var(--charcoal); line-height: 1.65; }
+
+    .cv-dl-bottom {
+      display: inline-block; margin-top: 52px;
+      font-family: var(--font-display); font-weight: 300; font-size: 10px;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent);
+      border-bottom: 1px solid var(--stone); padding-bottom: 2px; transition: color 0.25s;
+    }
+    .cv-dl-bottom:hover { color: var(--ink); }
+
+    footer { background: var(--ink); padding: 40px 80px; display: flex; justify-content: space-between; align-items: center; }
+    .footer-name { font-family: var(--font-display); font-weight: 300; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--slate); }
+    .footer-copy { font-family: var(--font-display); font-size: 10px; font-weight: 300; color: var(--accent); letter-spacing: 0.1em; }
+
+    @media (max-width: 860px) {
+      nav { padding: 0 24px; }
+      .nav-links { gap: 20px; }
+      .cv-header, .cv-wrap { padding-left: 24px; padding-right: 24px; }
+      .cv-row, .cv-skills-row { grid-template-columns: 84px 1fr; }
+      .cv-skills-row { grid-template-columns: 1fr; gap: 4px; }
+      footer { padding: 32px 24px; flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-name" style="text-decoration:none;">Read Lockhart</a>
+    <ul class="nav-links">
+      <li><a href="index.html#works">Works</a></li>
+      <li><a href="index.html#shop">Shop</a></li>
+      <li><a href="tours.html">Tours</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="cv.html" class="active">CV</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header class="cv-header">
+    <p class="section-label">Curriculum Vitae</p>
+    <h1>D. Read Lockhart</h1>
+    <p class="cv-tagline">Painter &nbsp;|&nbsp; Draftsman &nbsp;|&nbsp; Educator &nbsp;|&nbsp; Gallery Founder</p>
+    <div class="cv-contact">
+      <span>read.lockhart@gmail.com</span>
+      <span>readlockhart.org</span>
+      <span>+34 642 76 14 63</span>
+      <span>+1 575 224 4706</span>
+    </div>
+    <a href="Read_Lockhart_Master_Professional_Artist_CV_2026.pdf" class="cv-dl-top" download>Download PDF ↓</a>
+  </header>
+
+  <hr class="full-rule">
+
+  <div class="cv-wrap">
+
+    <div class="cv-block">
+      <p class="cv-heading">Professional Profile</p>
+      <p class="cv-profile">American professional painter and educator with more than eighteen years of paid artistic practice, formal atelier and museum-based training, university teaching experience, eight years as founder and director of an independent contemporary gallery, and a sustained exhibition and collector history. Primary work includes figurative and narrative oil painting, drawing, and landscape.</p>
+    </div>
+
+    <div class="cv-block">
+      <p class="cv-heading">Education &amp; Artistic Training</p>
+      <div class="cv-row"><span class="cv-year">2014</span><span class="cv-detail"><strong>Master of Fine Arts, Painting</strong> — Pennsylvania Academy of the Fine Arts (PAFA), Philadelphia, PA</span></div>
+      <div class="cv-row"><span class="cv-year">2006–08</span><span class="cv-detail"><strong>Authorized Copyist</strong> — Metropolitan Museum of Art Copyist Program, New York, NY<span class="cv-note">Direct study of Old Master painting through copying in the museum galleries.</span></span></div>
+      <div class="cv-row"><span class="cv-year">2006–08</span><span class="cv-detail"><strong>Advanced Studio Study</strong> — The Art Students League of New York, New York, NY</span></div>
+      <div class="cv-row"><span class="cv-year">2006–08</span><span class="cv-detail"><strong>Studio Assistant to Steven Assael</strong> — New York, NY<span class="cv-note">Organized workshops, monitored classes, maintained and organized the studio, and fulfilled general studio-assistant duties.</span></span></div>
+      <div class="cv-row"><span class="cv-year">2002–03</span><span class="cv-detail"><strong>Classical Atelier Training</strong> — The Florence Academy of Art, Florence, Italy</span></div>
+      <div class="cv-row"><span class="cv-year">2000</span><span class="cv-detail"><strong>Bachelor of Arts</strong> — St. John's College, Santa Fe, NM<span class="cv-note">Great Books curriculum emphasizing philosophy, mathematics, languages, and music.</span></span></div>
+    </div>
+
+    <div class="cv-block">
+      <p class="cv-heading">Professional Art Experience</p>
+      <div class="cv-row"><span class="cv-year">2017–25</span><span class="cv-detail"><strong>Founder &amp; Director</strong> — Read Lockhart Gallery, Taos, NM<span class="cv-note">Founded and directed an independent contemporary fine-arts gallery exhibiting Lockhart's work and approximately 8–10 other artists. Managed exhibitions, collector relations, sales, installation, publications, advertising, and gallery operations while maintaining an active studio practice.</span></span></div>
+      <div class="cv-row"><span class="cv-year">2017–25</span><span class="cv-detail"><strong>Assistant to Larry Bell</strong> — Studio Annex / Larry Bell Studio, Taos, NM<span class="cv-note">Supported organization and documentation of artworks and archival materials, installation, fabrication, and studio operations.</span></span></div>
+      <div class="cv-row"><span class="cv-year">2017–25</span><span class="cv-detail"><strong>Private Instructor / Mentor</strong> — Read Lockhart Gallery, Taos, NM<span class="cv-note">Private lessons, demonstrations, and individual mentoring in drawing and painting.</span></span></div>
+    </div>
+
+    <div class="cv-block">
+      <p class="cv-heading">Academic Teaching Experience</p>
+      <div class="cv-row"><span class="cv-year">2016–17</span><span class="cv-detail"><strong>Adjunct Professor</strong> — University of New Mexico, Taos, NM<span class="cv-note">Drawing, watercolor, and oil painting.</span></span></div>
+      <div class="cv-row"><span class="cv-year">2015–16</span><span class="cv-detail"><strong>Adjunct Professor</strong> — Drexel University, Philadelphia, PA<span class="cv-note">Drawing / figure drawing.</span></span></div>
+      <div class="cv-row"><span class="cv-year">2015–16</span><span class="cv-detail"><strong>Adjunct Professor</strong> — Moore College of Art &amp; Design, Philadelphia, PA<span class="cv-note">Foundation drawing and painting / drawing intensives.</span></span></div>
+      <div class="cv-row"><span class="cv-year">2012–15</span><span class="cv-detail"><strong>Teaching Assistant</strong> — Pennsylvania Academy of the Fine Arts, Philadelphia, PA<span class="cv-note">Multiple courses in drawing, painting, printmaking, sculpture, post-baccalaureate study, landscape, still life, and summer high-school studio instruction; also assisted with "The Art of Drawing, the Art of Seeing" at the Barnes Foundation.</span></span></div>
+    </div>
+
+    <div class="cv-block">
+      <p class="cv-heading">Selected Solo &amp; Museum / Institutional Exhibitions</p>
+      <div class="cv-row"><span class="cv-year">2024–25</span><span class="cv-detail">Open Wall Community Exhibition Series, Harwood Museum of Art, Taos, NM.</span></div>
+      <div class="cv-row"><span class="cv-year">2024</span><span class="cv-detail">"Psycho-Sexual Series," The Ruffed Grouse Gallery, Narrowsburg, NY.</span></div>
+      <div class="cv-row"><span class="cv-year">2017–25</span><span class="cv-detail">Multiple solo exhibitions, Read Lockhart Gallery, Taos, NM.</span></div>
+      <div class="cv-row"><span class="cv-year">2015</span><span class="cv-detail">"Recent Paintings," Shepherd University Gallery, Shepherdstown, WV.</span></div>
+      <div class="cv-row"><span class="cv-year">2014</span><span class="cv-detail">Faculty Choice "One Year Out" Exhibition, PAFA Museum, Philadelphia, PA.</span></div>
+    </div>
+
+    <div class="cv-block">
+      <p class="cv-heading">Selected Juried, Group &amp; Public Exhibitions / Programs</p>
+      <div class="cv-row"><span class="cv-year">2022</span><span class="cv-detail">Taos Fall Arts Festival, Taos, NM — two works accepted: "Looking West from Devisadero Trail 108" and "Waiting for Beckett."</span></div>
+      <div class="cv-row"><span class="cv-year">2020</span><span class="cv-detail">Beverly Hills Art Show, City of Beverly Hills, CA — selected artist; participated in virtual programming following COVID cancellation, including artist conversation/interview with Mat Gleason.</span></div>
+      <div class="cv-row"><span class="cv-year">2019</span><span class="cv-detail">Beverly Hills Art Show, City of Beverly Hills, CA — selected artist.</span></div>
+      <div class="cv-row"><span class="cv-year">2018</span><span class="cv-detail">155th Annual Small Oils Show, Philadelphia Sketch Club, Philadelphia, PA.</span></div>
+      <div class="cv-row"><span class="cv-year">2012</span><span class="cv-detail">ArtPrize, Grand Rapids, MI — participant.</span></div>
+      <div class="cv-row"><span class="cv-year">2012–14</span><span class="cv-detail">PAFA juried and curated exhibitions, Philadelphia, PA.</span></div>
+      <div class="cv-row"><span class="cv-year">2009</span><span class="cv-detail">Art Students League exhibition associated with the Alma Schapiro Travel Grant, New York, NY.</span></div>
+    </div>
+
+    <div class="cv-block">
+      <p class="cv-heading">Awards, Grants &amp; Recognition</p>
+      <div class="cv-row"><span class="cv-year">2018</span><span class="cv-detail">Portrait Award, 155th Annual Small Oils Show, Philadelphia Sketch Club, for "Audrey."</span></div>
+      <div class="cv-row"><span class="cv-year">2014</span><span class="cv-detail">Judith McGregor Caldwell Purchase Prize, PAFA, for "Cleaning Up After the Last Supper"; work acquired for the permanent collection.</span></div>
+      <div class="cv-row"><span class="cv-year">2013</span><span class="cv-detail">Faculty Choice Award, PAFA.</span></div>
+      <div class="cv-row"><span class="cv-year">2008</span><span class="cv-detail">Alma Schapiro Travel Grant, The Art Students League of New York.</span></div>
+    </div>
+
+    <div class="cv-block">
+      <p class="cv-heading">Permanent &amp; Selected Collections</p>
+      <div class="cv-row"><span class="cv-year">&nbsp;</span><span class="cv-detail">Pennsylvania Academy of the Fine Arts Museum, Philadelphia, PA — "Cleaning Up After the Last Supper," permanent collection.</span></div>
+      <div class="cv-row"><span class="cv-year">&nbsp;</span><span class="cv-detail">Robert Kwik, Antwerp, Belgium.</span></div>
+      <div class="cv-row"><span class="cv-year">&nbsp;</span><span class="cv-detail">John Bryan, Lake Bluff, Illinois.</span></div>
+      <div class="cv-row"><span class="cv-year">&nbsp;</span><span class="cv-detail">Additional private collections in the United States and Europe.</span></div>
+    </div>
+
+    <div class="cv-block">
+      <p class="cv-heading">Selected Press</p>
+      <div class="cv-row"><span class="cv-year">2023</span><span class="cv-detail">Idone Rhodes, "Living for art at Read Lockhart Gallery," Taos News / Tempo, July 13–19, 2023.</span></div>
+      <div class="cv-row"><span class="cv-year">2017</span><span class="cv-detail">Gina Gargone, "Read Lockhart Gallery: reinvestigating art in Taos," Live Taos, August 28, 2017.</span></div>
+    </div>
+
+    <div class="cv-block">
+      <p class="cv-heading">Public, Charitable &amp; Applied Art Projects</p>
+      <div class="cv-row"><span class="cv-year">c.2017–25</span><span class="cv-detail">Chokola, Taos, NM — long-term commercial use of a Lockhart painting as imagery on chocolate-bar packaging.</span></div>
+      <div class="cv-row"><span class="cv-year">2011–17</span><span class="cv-detail">Paint for Peaks, Taos Ski Valley — recurring participant in breast-cancer benefit art auction; six years of participation within this period.</span></div>
+      <div class="cv-row"><span class="cv-year">&nbsp;</span><span class="cv-detail">Taos County Fire/Rescue — Designer of the department patch adopted for official use.</span></div>
+      <div class="cv-row"><span class="cv-year">&nbsp;</span><span class="cv-detail">Taos County Dispatch — Designer of the organization's logo; original Procreate working files retained.</span></div>
+    </div>
+
+    <div class="cv-block">
+      <p class="cv-heading">Current Practice &amp; Skills</p>
+      <div class="cv-skills-row"><span class="cv-skills-label">Current practice</span><span class="cv-skills-value">2025–2026 studio work in Europe through plein-air painting, work from models, small and larger-scale paintings, renewed drawing study, museum-based research, and writing projects.</span></div>
+      <div class="cv-skills-row"><span class="cv-skills-label">Studio / professional</span><span class="cv-skills-value">Oil painting, drawing, composition, color, figurative and narrative painting, landscape, observational and imaginative drawing, museum copying, exhibition installation and curation, private and university-level studio instruction.</span></div>
+      <div class="cv-skills-row"><span class="cv-skills-label">Digital / applied</span><span class="cv-skills-value">Procreate, Adobe Creative Suite, photography, visual identity and logo design.</span></div>
+    </div>
+
+    <a href="Read_Lockhart_Master_Professional_Artist_CV_2026.pdf" class="cv-dl-bottom" download>Download Full CV (PDF) ↓</a>
+
+  </div>
+
+  <footer>
+    <span class="footer-name">Read Lockhart</span>
+    <span class="footer-copy">&copy; 2025 Read Lockhart. All rights reserved.</span>
+  </footer>
+
+</body>
+</html>
