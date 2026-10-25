@@ -260,6 +260,9 @@
     .cv-detail { color: var(--charcoal); line-height: 1.6; }
     .cv-detail strong { font-family: var(--font-display); font-weight: 400; font-size: 13px; font-style: normal; }
     .cv-detail em { color: var(--slate); font-style: italic; }
+    .past-projects { margin-top: 22px; }
+    .past-projects a { font-family: var(--font-display); font-weight: 300; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--slate); border-bottom: 1px solid var(--stone); padding-bottom: 2px; transition: color 0.25s; }
+    .past-projects a:hover { color: var(--accent); }
     .cv-dl { display: inline-block; margin-top: 28px; font-family: var(--font-display); font-weight: 300; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid var(--stone); padding-bottom: 2px; transition: color 0.25s; }
     .cv-dl:hover { color: var(--ink); }
 
@@ -369,7 +372,6 @@
     <ul class="nav-links">
       <li><a href="#works">Works</a></li>
       <li><a href="#shop">Shop</a></li>
-      <li><a href="tours.html">Tours</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="cv.html">CV</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -379,7 +381,7 @@
   <!-- HERO -->
   <div class="hero">
     <div class="hero-text">
-      <p class="hero-eyebrow">Painter &nbsp;·&nbsp; Taos &amp; Madrid</p>
+      <p class="hero-eyebrow">Painter &nbsp;·&nbsp; The Hague</p>
       <h1 class="hero-name">Read<br>Lockhart</h1>
       <p class="hero-tagline">Read Lockhart’s paintings treat the image as a site of inquiry where philosophy, memory, and perception collide. Trained in classical painting but resistant to stylistic orthodoxy, he dismantles and reconstructs images in a process he describes as “making a mess and painting my way out of it.” The resulting works function as thresholds—inviting viewers into unresolved spaces where meaning must be discovered rather than explained.</p>
       <div class="hero-cta">
@@ -494,6 +496,7 @@
       </div>
 
       <a href="cv.html" class="cv-dl">View Full CV →</a>
+      <p class="past-projects"><a href="tours.html">Past projects: Madrid art tours</a></p>
     </div>
   </div>
 
@@ -505,15 +508,15 @@
       <div class="contact-text fade-up">
         <p class="section-label">Get in Touch</p>
         <h2>Let's begin<br>a conversation.</h2>
-        <p>For inquiries about original works, prints, commissions, or exhibitions — I'd love to hear from you.</p>
+        <p>For inquiries about original works, prints, commissions, exhibitions, or teaching — I'd love to hear from you.</p>
         <div class="contact-details">
           <div>
             <p class="c-label">Email</p>
-            <p class="c-value"><a href="/cdn-cgi/l/email-protection#f183949095df9d9e929a99908385b1969c90989ddf929e9c"><span class="__cf_email__" data-cfemail="acdec9cdc882c0c3cfc7c4cdded8eccbc1cdc5c082cfc3c1">[email&#160;protected]</span></a></p>
+            <p class="c-value"><a href="mailto:readlockhartstudio@gmail.com">readlockhartstudio@gmail.com</a></p>
           </div>
           <div>
             <p class="c-label">Studio</p>
-            <p class="c-value">Taos, New Mexico &amp; Madrid, Spain</p>
+            <p class="c-value">The Hague, Netherlands</p>
           </div>
           <div>
             <p class="c-label">Instagram</p>
@@ -521,22 +524,24 @@
           </div>
         </div>
       </div>
-      <form class="contact-form fade-up" id="contact-form">
+      <form class="contact-form fade-up" id="contact-form" action="https://formspree.io/f/xrededzd" method="POST">
+        <input type="hidden" name="_subject" value="readlockhart.org: website inquiry">
+        <input type="hidden" name="form" value="Homepage contact form">
         <div class="form-group">
           <label class="form-label">Name</label>
-          <input type="text" class="form-input" placeholder="Your name" required>
+          <input type="text" name="name" class="form-input" placeholder="Your name" required>
         </div>
         <div class="form-group">
           <label class="form-label">Email</label>
-          <input type="email" class="form-input" placeholder="your@email.com" required>
+          <input type="email" name="email" class="form-input" placeholder="Your email address" required>
         </div>
         <div class="form-group">
           <label class="form-label">Subject</label>
-          <input type="text" class="form-input" placeholder="Original inquiry, print order, commission…">
+          <input type="text" name="subject" class="form-input" placeholder="Original inquiry, print order, commission…">
         </div>
         <div class="form-group">
           <label class="form-label">Message</label>
-          <textarea class="form-textarea" placeholder="Tell me what you're looking for…" required></textarea>
+          <textarea name="message" class="form-textarea" placeholder="Tell me what you're looking for…" required></textarea>
         </div>
         <button type="submit" class="btn-send">Send Message</button>
         <p id="form-confirm" style="display:none; font-family:var(--font-display); font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--stone); margin-top:4px;">Thank you — I'll be in touch soon.</p>
@@ -544,7 +549,7 @@
     </div>
   </div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     // ─────────────────────────────────────────────
     // FRONT PAGE WORKS  (13 selected works)
     // ─────────────────────────────────────────────
@@ -780,8 +785,22 @@
 
     document.getElementById('contact-form').addEventListener('submit', function(e) {
       e.preventDefault();
-      document.getElementById('form-confirm').style.display = 'block';
-      e.target.reset();
+      var form = e.target;
+      var confirmMsg = document.getElementById('form-confirm');
+      var btn = form.querySelector('.btn-send');
+      btn.disabled = true;
+      fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
+        .then(function(r) {
+          if (!r.ok) throw new Error('send failed');
+          confirmMsg.textContent = 'Thank you \u2014 I\u2019ll be in touch soon.';
+          confirmMsg.style.display = 'block';
+          form.reset();
+        })
+        .catch(function() {
+          confirmMsg.textContent = 'Sorry, that didn\u2019t send. Please email readlockhartstudio@gmail.com.';
+          confirmMsg.style.display = 'block';
+        })
+        .then(function() { btn.disabled = false; });
     });
 
     populateWorks();
@@ -792,7 +811,7 @@
   <!-- FOOTER -->
   <footer>
     <span class="footer-name">Read Lockhart</span>
-    <span class="footer-copy">&copy; 2025 Read Lockhart. All rights reserved.</span>
+    <span class="footer-copy">&copy; 2026 Read Lockhart. All rights reserved.</span>
   </footer>
 
 </body>
